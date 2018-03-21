@@ -124,8 +124,6 @@ open class BoundedMapTest: MapTest() {
         }
 
         boundedList.assertSize(3)
-
-        println(boundedList)
     }
 
     @Test
