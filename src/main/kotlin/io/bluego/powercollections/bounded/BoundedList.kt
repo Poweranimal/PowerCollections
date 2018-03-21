@@ -94,6 +94,9 @@ interface MutableBoundedList<E>: MutableList<E>, BoundedList<E>, MutableBoundabl
 
 }
 
+/**
+ * A [MutableBoundedList] baked by [LinkedList] that has a fixed capacity determined by [maxCapacity].
+ */
 abstract class AbstractBoundedList<E>
     : LinkedList<E>, MutableBoundedList<E>
 {

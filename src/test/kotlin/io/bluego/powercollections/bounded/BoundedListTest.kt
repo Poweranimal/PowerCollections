@@ -35,14 +35,14 @@ import kotlin.test.assertTrue
 open class BoundedListTest: ListTest() {
 
 
-    override fun `get list of size maxCapacity 3`(): MutableBoundedList<String> {
+    override fun `get list to test`(): MutableBoundedList<String> {
         return mutableBoundedListOf(3)
     }
 
     @Test
-    override fun test_addAll() {
+    override fun `test addAll`() {
 
-        val `first BoundedList` = `get list of size maxCapacity 3`()
+        val `first BoundedList` = `get list to test`()
 
         assertTrue { `first BoundedList`.addAll(`list of 3 different items`) }
 
@@ -56,7 +56,7 @@ open class BoundedListTest: ListTest() {
 
         /* _______________________________________________________________ */
 
-        val `second BoundedList` = `get list of size maxCapacity 3`()
+        val `second BoundedList` = `get list to test`()
 
         assertFailsWith(IndexOutOfBoundsException::class) {
             `second BoundedList`.addAll(`list of 4 different items`)
@@ -67,9 +67,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    override fun test_addAllByIndex() {
+    override fun `test addAllByIndex`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         val `first item` = `list of 3 different items`.first()
 
@@ -99,9 +99,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    open fun test_forceResize() {
+    open fun `test forceResize`() {
 
-        val `first boundedList` = `get list of size maxCapacity 3`()
+        val `first boundedList` = `get list to test`()
 
         assertFalse { `first boundedList`.forceResize(1) }
 
@@ -116,7 +116,7 @@ open class BoundedListTest: ListTest() {
         `first boundedList`.assertSize(1)
 
 
-        val `second boundedList` = `get list of size maxCapacity 3`()
+        val `second boundedList` = `get list to test`()
 
         assertTrue { `second boundedList`.addAll(`list of 3 different items`) }
 
@@ -137,9 +137,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    override fun test_add() {
+    override fun `test add`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertTrue { boundedList.add(`list of 4 different items`[0]) }
 
@@ -158,9 +158,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    override fun test_addByIndex() {
+    override fun `test addByIndex`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertEquals(Unit, boundedList.add(0, `list of 4 different items`[0]) )
 
@@ -179,9 +179,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    open fun test_forceAdd() {
+    open fun `test forceAdd`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertFalse { boundedList.forceAdd(`list of 4 different items`[0]) }
 
@@ -200,9 +200,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    open fun test_forceAddByIndex() {
+    open fun `test forceAddByIndex`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertFalse { boundedList.forceAdd(0, `list of 4 different items`[0]) }
 
@@ -221,9 +221,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    override fun test_iterator() {
+    override fun `test iterator`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertTrue { boundedList.addAll(`list of 3 different items`)}
 
@@ -247,9 +247,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    override fun test_listIterator() {
+    override fun `test listIterator`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertTrue { boundedList.addAll(`list of 3 different items`)}
 
@@ -309,9 +309,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    override fun test_listIteratorByIndex() {
+    override fun `test listIteratorByIndex`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertTrue { boundedList.addAll(`list of 3 different items`)}
 
@@ -370,9 +370,9 @@ open class BoundedListTest: ListTest() {
 
     }
 
-    override fun test_subList() {
+    override fun `test subList`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertTrue { boundedList.addAll(`list of 3 different items`) }
 
@@ -403,9 +403,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    open fun test_maxCapacity() {
+    open fun `test maxCapacity`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertEquals(3, boundedList.maxCapacity)
 
@@ -419,9 +419,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    open fun test_forceAddAll() {
+    open fun `test forceAddAll`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         boundedList.assertSize(0)
 
@@ -433,9 +433,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    open fun test_forceAddAllByIndex() {
+    open fun `test forceAddAllByIndex`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertTrue { boundedList.addAll(`list of 3 different items`) }
 
@@ -456,9 +456,9 @@ open class BoundedListTest: ListTest() {
     }
 
     @Test
-    open fun test_resize() {
+    open fun `test resize`() {
 
-        val boundedList = `get list of size maxCapacity 3`()
+        val boundedList = `get list to test`()
 
         assertEquals(3, boundedList.maxCapacity)
 
