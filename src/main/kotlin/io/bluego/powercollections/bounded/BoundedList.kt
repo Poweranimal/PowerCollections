@@ -272,12 +272,12 @@ abstract class AbstractBoundedList<E>
     }
 
     override fun listIterator(): MutableListIterator<E>
-            = SizedListIterator(super.listIterator())
+            = BoundedListIterator(super.listIterator())
 
     override fun listIterator(index: Int): MutableListIterator<E>
-            = SizedListIterator(super.listIterator(index))
+            = BoundedListIterator(super.listIterator(index))
 
-    private inner class SizedListIterator(private val mIterator: MutableListIterator<E>)
+    private inner class BoundedListIterator(private val mIterator: MutableListIterator<E>)
         : MutableListIterator<E> by mIterator
     {
         override fun add(element: E) {

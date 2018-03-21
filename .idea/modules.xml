@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PowerCollections.iml" filepath="$PROJECT_DIR$/PowerCollections.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PowerCollections_main.iml" filepath="$PROJECT_DIR$/.idea/modules/PowerCollections_main.iml" group="PowerCollections" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PowerCollections_test.iml" filepath="$PROJECT_DIR$/.idea/modules/PowerCollections_test.iml" group="PowerCollections" />
     </modules>
   </component>
 </project>
