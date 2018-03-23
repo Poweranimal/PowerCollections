@@ -22,52 +22,51 @@
  * SOFTWARE.
  */
 
-package io.bluego.powercollections.observable.list
+package io.bluego.powercollections.observable.map
 
 import io.bluego.powercollections.observable.AbstractDummyObserver
 
-@Suppress("ConstantConditionIf")
-class DummyListObserver<E> : AbstractDummyObserver<Int, E?>, ListObserver<E> {
+
+class DummyMapObserver<K, V> : AbstractDummyObserver<K, V>, MapObserver<K, V> {
 
     constructor() : super()
     constructor(isDebug: Boolean) : super(isDebug)
 
-    override fun wasAdded(index: Int, element: E?) {
-        if (isDebug) println("Added: index: $index element: $element")
-        addedList.add(index to element)
+    override fun wasAdded(key: K, value: V) {
+        if (isDebug) println("Added: key: $key value: $value")
+        addedList.add(key to value)
     }
 
-    override fun wasAdded(elements: Map<Int, E?>) {
-        if (isDebug) println("Added: $elements")
-        addedList.addAll(elements.toList())
+    override fun wasAdded(entries: Map<K, V>) {
+        if (isDebug) println("Added: $entries")
+        addedList.addAll(entries.map(Map.Entry<K, V>::toPair))
     }
 
-    override fun wasRemoved(index: Int, element: E?) {
-        if (isDebug) println("Removed: index: $index element: $element")
-        removedList.add(index to element)
+    override fun wasRemoved(key: K, value: V) {
+        if (isDebug) println("Removed: key: $key value: $value")
+        removedList.add(key to value)
     }
 
-    override fun wasRemoved(elements: Map<Int, E?>) {
-        if (isDebug) println("Removed: $elements")
-        removedList.addAll(elements.toList())
+    override fun wasRemoved(entries: Map<K, V>) {
+        if (isDebug) println("Removed: $entries")
+        removedList.addAll(entries.map(Map.Entry<K, V>::toPair))
     }
 
-    override fun wasReplaced(index: Int, lastElement: E?, newElement: E?) {
-        if (isDebug) println("Replaced $index: $lastElement with $newElement")
-        replacedList.add(index to (lastElement to newElement))
+    override fun wasReplaced(key: K, lastValue: V, newValue: V) {
+        if (isDebug) println("Replaced key: $key lastValue: $lastValue with newValue $newValue")
+        replacedList.add(key to (lastValue to newValue))
     }
 
-    override fun wasReplaced(map: Map<Int, Pair<E?, E?>>) {
-        if (isDebug) println("Replaced: $map")
-        replacedList.addAll(map.toList())
+    override fun wasReplaced(entries: Map<K, Pair<V, V>>) {
+        if (isDebug) println("Replaced: $entries")
+        replacedList.addAll(entries.map(Map.Entry<K, Pair<V, V>>::toPair))
     }
 
     override fun notifyDataChanged() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun notifyDataChanged(index: Int) {
+    override fun notifyDataChanged(key: K) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 }

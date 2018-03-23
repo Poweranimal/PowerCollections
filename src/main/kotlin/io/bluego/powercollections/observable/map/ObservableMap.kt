@@ -44,7 +44,7 @@ interface MutableObservableMap<K, V>: ObservableMap<K, V>, MutableMap<K, V>, Obs
     fun runSilentChanges(silentChanges: MutableObservableMap<K, V>.() -> Unit)
 }
 
-abstract class AbstractObservableMap<K: Any, V: Any> protected constructor(
+abstract class AbstractObservableMap<K, V> protected constructor(
         private val mMutableMap: MutableMap<K, V>,
         final override var observer: MapObserver<K, V>)
     : MutableObservableMap<K, V>, MutableMap<K, V> by mMutableMap
@@ -90,11 +90,11 @@ abstract class AbstractObservableMap<K: Any, V: Any> protected constructor(
             = mAdapter.replaceAll(p0, mMutableMap::replaceAll)
 }
 
-class HashObservableMap<K: Any, V: Any>(observer: MapObserver<K, V>, capacity: Int = 16)
+class HashObservableMap<K, V>(observer: MapObserver<K, V>, capacity: Int = 16)
     : AbstractObservableMap<K, V>(HashMap(capacity), observer)
 {
     companion object {
-        fun <K: Any, V: Any> create(observer: MapObserver<K, V>, map: Map<K, V>)
+        fun <K, V> create(observer: MapObserver<K, V>, map: Map<K, V>)
                 : HashObservableMap<K, V>
         {
             val observerMap = HashObservableMap(observer)
@@ -109,14 +109,14 @@ class HashObservableMap<K: Any, V: Any>(observer: MapObserver<K, V>, capacity: I
  *
  * @return Emtpy [MutableObservableMap]
  */
-fun <K: Any, V: Any> mutableObservableMapOf(observer: MapObserver<K, V>): MutableObservableMap<K, V> =
+fun <K, V> mutableObservableMapOf(observer: MapObserver<K, V>): MutableObservableMap<K, V> =
         HashObservableMap(observer)
 
 /**
  * @see [mutableObservableMapOf]
  * @see [MapObserverDSL]
  */
-fun <K: Any, V: Any> mutableObservableMapOf(observer: MapObserverDSL<K, V>.() -> Unit): MutableObservableMap<K, V>
+fun <K, V> mutableObservableMapOf(observer: MapObserverDSL<K, V>.() -> Unit): MutableObservableMap<K, V>
         = mutableObservableMapOf(MapObserverDSL.create(observer))
 
 /**
@@ -124,7 +124,7 @@ fun <K: Any, V: Any> mutableObservableMapOf(observer: MapObserverDSL<K, V>.() ->
  *
  * @return [MutableObservableMap] with [elements]s
  */
-fun <K: Any, V: Any> mutableObservableMapOf(observer: MapObserver<K, V>,
+fun <K, V> mutableObservableMapOf(observer: MapObserver<K, V>,
                                             vararg elements: Pair<K, V>): MutableObservableMap<K, V>
         = HashObservableMap.create(observer, mapOf(*elements))
 
@@ -132,7 +132,7 @@ fun <K: Any, V: Any> mutableObservableMapOf(observer: MapObserver<K, V>,
  * @see [mutableObservableMapOf]
  * @see [MapObserverDSL]
  */
-fun <K: Any, V: Any> mutableObservableMapOf(observer: MapObserverDSL<K, V>.() -> Unit,
+fun <K, V> mutableObservableMapOf(observer: MapObserverDSL<K, V>.() -> Unit,
                                             vararg elements: Pair<K, V>): MutableObservableMap<K, V>
         = mutableObservableMapOf(MapObserverDSL.create(observer), *elements)
 
@@ -141,14 +141,14 @@ fun <K: Any, V: Any> mutableObservableMapOf(observer: MapObserverDSL<K, V>.() ->
  *
  * @return Empty [ObservableMap]
  */
-fun <K: Any, V: Any> observableMapOf(observer: MapObserver<K, V>): ObservableMap<K, V>
+fun <K, V> observableMapOf(observer: MapObserver<K, V>): ObservableMap<K, V>
         = mutableObservableMapOf(observer)
 
 /**
  * @see [observableMapOf]
  * @see [MapObserverDSL]
  */
-fun <K: Any, V: Any> observableMapOf(observer: MapObserverDSL<K, V>.() -> Unit): ObservableMap<K, V>
+fun <K, V> observableMapOf(observer: MapObserverDSL<K, V>.() -> Unit): ObservableMap<K, V>
         = mutableObservableMapOf(observer)
 
 /**
@@ -156,7 +156,7 @@ fun <K: Any, V: Any> observableMapOf(observer: MapObserverDSL<K, V>.() -> Unit):
  *
  * @return [ObservableMap] with [elements]s
  */
-fun <K: Any, V: Any> observableMapOf(observer: MapObserver<K, V>,
+fun <K, V> observableMapOf(observer: MapObserver<K, V>,
                                      vararg elements: Pair<K, V>): ObservableMap<K, V> =
         mutableObservableMapOf(observer, *elements)
 
@@ -164,6 +164,6 @@ fun <K: Any, V: Any> observableMapOf(observer: MapObserver<K, V>,
  * @see [observableMapOf]
  * @see [MapObserverDSL]
  */
-fun <K: Any, V: Any> observableMapOf(observer: MapObserverDSL<K, V>.() -> Unit,
+fun <K, V> observableMapOf(observer: MapObserverDSL<K, V>.() -> Unit,
                                      vararg elements: Pair<K, V>): ObservableMap<K, V> =
         mutableObservableMapOf(observer, *elements)

@@ -28,7 +28,7 @@ import io.bluego.powercollections.getKeyByValue
 import io.bluego.powercollections.observable.map.MapObserver
 import java.util.function.BiFunction
 
-open class ObservableMapAdapter<K: Any, V: Any, out T: MutableMap<K, V>>(
+open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
         private val mObserver: MapObserver<K, V>,
         private val mMap: T)
 {
