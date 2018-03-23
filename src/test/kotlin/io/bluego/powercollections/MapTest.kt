@@ -27,7 +27,6 @@ package io.bluego.powercollections
 import org.junit.Test
 import kotlin.test.*
 
-//TODO: more extensive tests!
 @Suppress("RemoveRedundantBackticks", "PropertyName", "LocalVariableName")
 open class MapTest {
 
@@ -145,7 +144,6 @@ open class MapTest {
 
         assertEquals(`map of 3 different items`.valueAt(1), map[1])
 
-
         assertNull(map.get(`map of 3 different items`.keyAt(2)))
 
     }
@@ -162,6 +160,58 @@ open class MapTest {
         assertEquals(Unit, map.clear())
 
         assertTrue { map.isEmpty() }
+
+    }
+
+    @Test
+    open fun `test keys`() {
+
+        val map = `get map to test`()
+
+        map.putAll(`map of 3 different items`)
+
+        assertEquals(`map of 3 different items`.keys, map.keys)
+
+    }
+
+    @Test
+    open fun `test values`() {
+
+        val map = `get map to test`()
+
+        map.putAll(`map of 3 different items`)
+
+        assertEquals(`map of 3 different items`.values.toList(), map.values.toList())
+
+    }
+
+    @Test
+    open fun `test entries`() {
+
+        val map = `get map to test`()
+
+        map.putAll(`map of 3 different items`)
+
+        assertEquals(`map of 3 different items`.entries, map.entries)
+
+    }
+
+    @Test
+    open fun `test mutableEntry`() {
+
+        val map = `get map to test`()
+
+        map.putAll(`map of 3 different items`)
+
+        assertEquals(`map of 3 different items`.entries, map.entries)
+
+        val newValue = `map of 4 different items`.at(0).value
+
+        for (entry in map.entries) {
+            entry.setValue(newValue)
+        }
+
+        assertEquals(`map of 3 different items`.entries.map { it.key to newValue }, map.entries.map(Map.Entry<Int, String>::toPair))
 
     }
 

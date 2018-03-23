@@ -28,7 +28,6 @@ import io.bluego.powercollections.MapTest
 import org.junit.Test
 import kotlin.test.*
 
-//TODO: more extensive tests!
 @Suppress("RemoveRedundantBackticks", "PropertyName", "LocalVariableName")
 open class BoundedMapTest: MapTest() {
 
