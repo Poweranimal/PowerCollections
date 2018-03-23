@@ -22,53 +22,13 @@
  * SOFTWARE.
  */
 
+package io.bluego.powercollections.observable.map
 
-apply plugin: 'idea'
-apply plugin: 'maven'
-apply plugin: 'kotlin'
+interface Observable<K, in V> {
 
-group = "com.github.Poweranimal"
-version = "0.0.1"
+    val observer: MapObserver<K, V>
 
-sourceCompatibility = 1.7 // java 7
-targetCompatibility = 1.7
+    fun notifyDataChanged()
 
-buildscript {
-    ext.kotlin_version = '1.2.31'
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-        maven { url 'https://jitpack.io' }
-    }
-}
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+    fun notifyDataChanged(key: K)
 }

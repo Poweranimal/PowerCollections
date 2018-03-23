@@ -32,11 +32,18 @@ internal fun <E> MutableIterator<E>.removeAll(n: Int) {
     check(n > 0) { "n must be greater than 0" }
     var counter = 0
     do {
-        if (!hasNext()) throw IndexOutOfBoundsException("ERROR: n is greater than the " +
-                "iterators max size!")
+        if (!hasNext()) throw IndexOutOfBoundsException("ERROR: n (= $n) is greater than the " +
+                "iterators max size (= $counter)!")
         if (counter >= n) return
         next()
         remove()
         counter++
     } while (true)
+}
+
+internal fun <K, V> Map<K, V>.getKeyByValue(value: V): K? {
+    for ((key, value1) in this) {
+        if (value == value1) return key
+    }
+    return null
 }

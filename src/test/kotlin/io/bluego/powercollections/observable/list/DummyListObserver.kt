@@ -26,7 +26,8 @@ package io.bluego.powercollections.observable.list
 
 import kotlin.test.assertEquals
 
-class DummyListObserver<E>: ListObserver<E> {
+@Suppress("ConstantConditionIf")
+class DummyListObserver<E>(val isDebug: Boolean = false) : ListObserver<E> {
 
     val addedList = mutableListOf<Pair<Int, E?>>()
     val removedList = mutableListOf<Pair<Int, E?>>()
@@ -41,19 +42,19 @@ class DummyListObserver<E>: ListObserver<E> {
     inline fun assertWasAdded(number: Int, action: () -> Unit) {
         val start = addedList.size
         action()
-        assertEquals(number, addedList.size - start, "assertWasAdded")
+        assertEquals(number, addedList.size - start, if (isDebug) "assertWasAdded" else null)
     }
 
     inline fun assertWasRemoved(number: Int, action: () -> Unit) {
         val start = removedList.size
         action()
-        assertEquals(number, removedList.size - start, "assertWasRemoved")
+        assertEquals(number, removedList.size - start, if (isDebug) "assertWasRemoved" else null)
     }
 
     inline fun assertWasReplaced(number: Int, action: () -> Unit) {
         val start = replacedList.size
         action()
-        assertEquals(number, replacedList.size - start, "AssertWasReplaced")
+        assertEquals(number, replacedList.size - start, if (isDebug) "AssertWasReplaced" else null)
     }
 
     inline fun assertWas(added: Int, removed: Int, replaced: Int, action: () -> Unit) {
@@ -65,32 +66,32 @@ class DummyListObserver<E>: ListObserver<E> {
     }
 
     override fun wasAdded(index: Int, element: E?) {
-        println("Added: index: $index element: $element")
+        if (isDebug) println("Added: index: $index element: $element")
         addedList.add(index to element)
     }
 
     override fun wasAdded(elements: Map<Int, E?>) {
-        println("Added: $elements")
+        if (isDebug) println("Added: $elements")
         addedList.addAll(elements.toList())
     }
 
     override fun wasRemoved(index: Int, element: E?) {
-        println("Removed: index: $index element: $element")
+        if (isDebug) println("Removed: index: $index element: $element")
         removedList.add(index to element)
     }
 
     override fun wasRemoved(elements: Map<Int, E?>) {
-        println("Removed: $elements")
+        if (isDebug) println("Removed: $elements")
         removedList.addAll(elements.toList())
     }
 
     override fun wasReplaced(index: Int, lastElement: E?, newElement: E?) {
-        println("Replaced $index: $lastElement with $newElement")
+        if (isDebug) println("Replaced $index: $lastElement with $newElement")
         replacedList.add(index to (lastElement to newElement))
     }
 
     override fun wasReplaced(map: Map<Int, Pair<E?, E?>>) {
-        println("Replaced: $map")
+        if (isDebug) println("Replaced: $map")
         replacedList.addAll(map.toList())
     }
     override fun notifyDataChanged() {

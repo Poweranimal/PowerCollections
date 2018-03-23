@@ -102,7 +102,7 @@ internal open class ObservableListAdapter<out T: MutableList<E>, E>(private val 
         return if (!isSilent) {
             val toBeRemoved = elements.mapNotNull {
                 val index = mList.indexOf(it)
-                if (index > -1) Pair(index, it).apply {println("FOUND: $it at $index") }
+                if (index > -1) Pair(index, it)
                 else null
             }.toMap()
             if (toBeRemoved.isNotEmpty()) {

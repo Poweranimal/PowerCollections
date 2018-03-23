@@ -136,27 +136,11 @@ abstract class AbstractObservableList<E>: ArrayList<E>, MutableObservableList<E>
 
 }
 
-class ObservableListBuilder<E> : AbstractObservableList<E>
+class ArrayObservableList<E> : AbstractObservableList<E>
 {
-    private constructor(initialCapacity: Int, mObserver: ListObserver<E>) : super(initialCapacity, mObserver)
-    private constructor(mObserver: ListObserver<E>) : super(mObserver)
-    private constructor(c: Collection<E>?, mObserver: ListObserver<E>) : super(c, mObserver)
-
-
-    companion object {
-
-        fun<E> create(initialCapacity: Int, observer: ListObserver<E>) : MutableObservableList<E> {
-            return ObservableListBuilder(initialCapacity, observer)
-        }
-
-        fun<E> create(observer: ListObserver<E>) : MutableObservableList<E> {
-            return ObservableListBuilder(observer)
-        }
-
-        fun<E> create(c: Collection<E>?, observer: ListObserver<E>) : MutableObservableList<E> {
-            return ObservableListBuilder(c, observer)
-        }
-    }
+    constructor(initialCapacity: Int, mObserver: ListObserver<E>) : super(initialCapacity, mObserver)
+    constructor(mObserver: ListObserver<E>) : super(mObserver)
+    constructor(c: Collection<E>?, mObserver: ListObserver<E>) : super(c, mObserver)
 }
 
 
@@ -166,7 +150,7 @@ class ObservableListBuilder<E> : AbstractObservableList<E>
  * @return Empty [MutableObservableList]
  */
 fun <E> mutableObservableListOf(observer: ListObserver<E>)
-        : MutableObservableList<E> = ObservableListBuilder.create(observer)
+        : MutableObservableList<E> = ArrayObservableList(observer)
 
 /**
  * @see ListObserverDSL
@@ -183,7 +167,7 @@ fun <E> mutableObservableListOf(observer: ListObserverDSL<E>.() -> Unit) : Mutab
 fun <E> mutableObservableListOf(
         observer: ListObserver<E>,
         vararg elements: E): MutableObservableList<E>
-        = ObservableListBuilder.create(listOf(*elements), observer)
+        = ArrayObservableList(listOf(*elements), observer)
 
 /**
  * @see ListObserverDSL
