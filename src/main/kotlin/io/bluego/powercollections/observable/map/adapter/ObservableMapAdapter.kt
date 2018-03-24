@@ -135,6 +135,7 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
         } else replace(p0, p1)
     }
 
+    //TODO: implement
     open fun replaceAll(p0: BiFunction<in K, in V, out V>,
                         replaceAll: (BiFunction<in K, in V, out V>) -> Unit)
     {
@@ -156,10 +157,12 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
             return result
         }
 
+        //TODO: implement
         override fun retainAll(elements: Collection<T>): Boolean {
             throw NotImplementedError()
         }
 
+        //TODO: implement
         override fun removeAll(elements: Collection<T>): Boolean {
             throw NotImplementedError()
         }
@@ -180,18 +183,22 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
         {
 
             private var mLast: T? = null
+            private var mNextWasCalled = false
 
             override fun hasNext(): Boolean = mIterator.hasNext()
 
             override fun next(): T {
                 val element = mIterator.next().apply { mLast = this }
+                mNextWasCalled = true
                 return mElementWrapper(element)
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun remove() {
-                checkNotNull(mLast as Any) { "Call Iterator.next()" }
-                val key = mKeyGetter(mLast!!)
-                val value = mValueGetter(mLast!!)
+                if (!mNextWasCalled) IllegalStateException("Call Iterator.next()")
+                else mNextWasCalled = false
+                val key = mKeyGetter(mLast as T)
+                val value = mValueGetter(mLast as T)
                 try {
                     mIterator.remove()
                     mObserver.wasRemoved(key, value)
@@ -241,6 +248,7 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
         {
 
             private var mLast: T? = null
+            private var mNextWasCalled = false
 
             override fun hasNext(): Boolean = mIterator.hasNext()
 
@@ -249,10 +257,12 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
                 return mElementWrapper(element)
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun remove() {
-                checkNotNull(mLast as Any)
-                val key = mKeyGetter(mLast!!)
-                val value = mValueGetter(mLast!!)
+                if (!mNextWasCalled) IllegalStateException("Call Iterator.next()")
+                else mNextWasCalled = false
+                val key = mKeyGetter(mLast as T)
+                val value = mValueGetter(mLast as T)
                 try {
                     mIterator.remove()
                     mObserver.wasRemoved(key, value)
