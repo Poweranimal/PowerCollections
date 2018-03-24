@@ -40,32 +40,32 @@ interface ListObserver<in E> {
      * Called when a new item was added.
      * Actions that may trigger this event:
      */
-    fun wasAdded(index: Int, element: E?)
+    fun wasAdded(index: Int, element: E)
 
     /**
      * Called when new items were added.
      */
-    fun wasAdded(elements: Map<Int, E?>)
+    fun wasAdded(elements: Map<Int, E>)
 
     /**
      * Called when items were removed.
      */
-    fun wasRemoved(index: Int, element: E?)
+    fun wasRemoved(index: Int, element: E)
 
     /**
      * Called when items were removed.
      */
-    fun wasRemoved(elements: Map<Int, E?>)
+    fun wasRemoved(elements: Map<Int, E>)
 
     /**
      * Called when a item was replaced by a new item.
      */
-    fun wasReplaced(index: Int, lastElement: E?, newElement: E?)
+    fun wasReplaced(index: Int, lastElement: E, newElement: E)
 
     /**
      * Called when a item was replaced by a new item.
      */
-    fun wasReplaced(map: Map<Int, Pair<E?, E?>>)
+    fun wasReplaced(map: Map<Int, Pair<E, E>>)
 }
 
 @Suppress("AddVarianceModifier")
@@ -82,18 +82,18 @@ class ListObserverDSL<E> private constructor() {
 
                     override fun notifyDataChanged(index: Int) = mNotifyDataChangedIndex(index)
 
-                    override fun wasAdded(index: Int, element: E?) = mWasAdded(index, element)
+                    override fun wasAdded(index: Int, element: E) = mWasAdded(index, element)
 
-                    override fun wasAdded(elements: Map<Int, E?>) = mWasAddedMultiple(elements)
+                    override fun wasAdded(elements: Map<Int, E>) = mWasAddedMultiple(elements)
 
-                    override fun wasRemoved(index: Int, element: E?) = mWasRemoved(index, element)
+                    override fun wasRemoved(index: Int, element: E) = mWasRemoved(index, element)
 
-                    override fun wasRemoved(elements: Map<Int, E?>) = mWasRemovedMultiple(elements)
+                    override fun wasRemoved(elements: Map<Int, E>) = mWasRemovedMultiple(elements)
 
-                    override fun wasReplaced(index: Int, lastElement: E?, newElement: E?)
+                    override fun wasReplaced(index: Int, lastElement: E, newElement: E)
                             = mWasReplaced(index, lastElement, newElement)
 
-                    override fun wasReplaced(map: Map<Int, Pair<E?, E?>>) = mWasReplacedMultiple(map)
+                    override fun wasReplaced(map: Map<Int, Pair<E, E>>) = mWasReplacedMultiple(map)
 
                 }
             }
@@ -102,12 +102,12 @@ class ListObserverDSL<E> private constructor() {
 
     private var mNotifyDataChanged: () -> Unit = throw NotImplementedError()
     private var mNotifyDataChangedIndex: (Int) -> Unit = throw NotImplementedError()
-    private var mWasAdded: (Int, E?) -> Unit = throw NotImplementedError()
-    private var mWasAddedMultiple: (Map<Int, E?>) -> Unit = throw NotImplementedError()
-    private var mWasRemoved: (Int, E?) -> Unit = throw NotImplementedError()
-    private var mWasRemovedMultiple: (Map<Int, E?>) -> Unit = throw NotImplementedError()
-    private var mWasReplaced: (Int, E?, E?) -> Unit =  throw NotImplementedError()
-    private var mWasReplacedMultiple: (Map<Int, Pair<E?, E?>>) -> Unit = throw NotImplementedError()
+    private var mWasAdded: (Int, E) -> Unit = throw NotImplementedError()
+    private var mWasAddedMultiple: (Map<Int, E>) -> Unit = throw NotImplementedError()
+    private var mWasRemoved: (Int, E) -> Unit = throw NotImplementedError()
+    private var mWasRemovedMultiple: (Map<Int, E>) -> Unit = throw NotImplementedError()
+    private var mWasReplaced: (Int, E, E) -> Unit =  throw NotImplementedError()
+    private var mWasReplacedMultiple: (Map<Int, Pair<E, E>>) -> Unit = throw NotImplementedError()
 
 
     /**
@@ -127,42 +127,42 @@ class ListObserverDSL<E> private constructor() {
     /**
      * @see [ListObserver.wasAdded]
      */
-    fun wasAdded(action: (index: Int, element: E?) -> Unit) {
+    fun wasAdded(action: (index: Int, element: E) -> Unit) {
         mWasAdded = action
     }
 
     /**
      * @see [ListObserver.wasAdded]
      */
-    fun wasAdded(action: (elements: Map<Int, E?>) -> Unit) {
+    fun wasAdded(action: (elements: Map<Int, E>) -> Unit) {
         mWasAddedMultiple = action
     }
 
     /**
      * @see [ListObserver.wasRemoved]
      */
-    fun wasRemoved(action: (index: Int, element: E?) -> Unit) {
+    fun wasRemoved(action: (index: Int, element: E) -> Unit) {
         mWasRemoved = action
     }
 
     /**
      * @see [ListObserver.wasRemoved]
      */
-    fun wasRemoved(action: (Map<Int, E?>) -> Unit) {
+    fun wasRemoved(action: (Map<Int, E>) -> Unit) {
         mWasRemovedMultiple = action
     }
 
     /**
      * @see [ListObserver.wasReplaced]
      */
-    fun wasReplaced(action: (index: Int, lastElement: E?, newElement: E?) -> Unit) {
+    fun wasReplaced(action: (index: Int, lastElement: E, newElement: E) -> Unit) {
         mWasReplaced = action
     }
 
     /**
      * @see [ListObserver.wasReplaced]
      */
-    fun wasReplaced(action: (Map<Int, Pair<E?, E?>>) -> Unit) {
+    fun wasReplaced(action: (Map<Int, Pair<E, E>>) -> Unit) {
         mWasReplacedMultiple = action
     }
 }

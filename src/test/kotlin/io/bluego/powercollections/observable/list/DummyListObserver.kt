@@ -27,37 +27,37 @@ package io.bluego.powercollections.observable.list
 import io.bluego.powercollections.observable.AbstractDummyObserver
 
 @Suppress("ConstantConditionIf")
-class DummyListObserver<E> : AbstractDummyObserver<Int, E?>, ListObserver<E> {
+class DummyListObserver<E> : AbstractDummyObserver<Int, E>, ListObserver<E> {
 
     constructor() : super()
     constructor(isDebug: Boolean) : super(isDebug)
 
-    override fun wasAdded(index: Int, element: E?) {
+    override fun wasAdded(index: Int, element: E) {
         if (isDebug) println("Added: index: $index element: $element")
         mAddedList.add(index to element)
     }
 
-    override fun wasAdded(elements: Map<Int, E?>) {
+    override fun wasAdded(elements: Map<Int, E>) {
         if (isDebug) println("Added: $elements")
         mAddedList.addAll(elements.toList())
     }
 
-    override fun wasRemoved(index: Int, element: E?) {
+    override fun wasRemoved(index: Int, element: E) {
         if (isDebug) println("Removed: index: $index element: $element")
         mRemovedList.add(index to element)
     }
 
-    override fun wasRemoved(elements: Map<Int, E?>) {
+    override fun wasRemoved(elements: Map<Int, E>) {
         if (isDebug) println("Removed: $elements")
         mRemovedList.addAll(elements.toList())
     }
 
-    override fun wasReplaced(index: Int, lastElement: E?, newElement: E?) {
+    override fun wasReplaced(index: Int, lastElement: E, newElement: E) {
         if (isDebug) println("Replaced $index: $lastElement with $newElement")
         mReplacedList.add(index to (lastElement to newElement))
     }
 
-    override fun wasReplaced(map: Map<Int, Pair<E?, E?>>) {
+    override fun wasReplaced(map: Map<Int, Pair<E, E>>) {
         if (isDebug) println("Replaced: $map")
         mReplacedList.addAll(map.toList())
     }

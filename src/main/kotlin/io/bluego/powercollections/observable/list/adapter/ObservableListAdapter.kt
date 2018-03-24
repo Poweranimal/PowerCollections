@@ -176,26 +176,27 @@ internal open class ObservableListAdapter<out T: MutableList<E>, E>(private val 
         override fun next(): E = mIterator.next().apply { last = this }
 
         //TODO: write more efficient index tracker
+        @Suppress("UNCHECKED_CAST")
         override fun remove() {
             if (!isSilent) {
                 val index = mList.indexOf(last)
                 check(index >= 0) { "Index must not be smaller than 0. There must be a bug." }
                 mIterator.remove()
-                mObserver.wasRemoved(index, last)
+                mObserver.wasRemoved(index, last as E)
             } else mIterator.remove()
         }
     }
 
-    //TODO: Must be tested!!!
     protected open inner class MutableObservableListIterator(
             private val mIterator: MutableListIterator<E>)
         : MutableObservableIterator(mIterator), MutableListIterator<E>
     {
+        @Suppress("UNCHECKED_CAST")
         override fun remove() {
             if (!isSilent) {
                 val index = nextIndex() - 1
                 mIterator.remove()
-                mObserver.wasRemoved(index, last)
+                mObserver.wasRemoved(index, last as E)
             } else mIterator.remove()
         }
 
@@ -209,11 +210,12 @@ internal open class ObservableListAdapter<out T: MutableList<E>, E>(private val 
             } else mIterator.add(element)
         }
 
+        @Suppress("UNCHECKED_CAST")
         override fun set(element: E) {
             if (!isSilent) {
                 val index = nextIndex() - 1
                 mIterator.set(element)
-                mObserver.wasReplaced(index, last, element)
+                mObserver.wasReplaced(index, last as E, element)
             } else mIterator.set(element)
         }
 
