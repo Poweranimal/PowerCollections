@@ -257,6 +257,59 @@ open class MapTest {
         map.assertSize(0)
     }
 
+    @Test
+    open fun `test replace`() {
+
+        val map = `get map to test`()
+
+        map.putAll(`map of 3 different items`)
+
+        val failEntry = `map of 4 different items`.at(3)
+
+
+        val entry0 = `map of 3 different items`.at(0)
+
+        assertTrue(map.replace(entry0.key, entry0.value, `map of 4 different items`.valueAt(0)))
+
+        assertEquals(`map of 3 different items`.apply { replace(`map of 3 different items`.keyAt(0), `map of 4 different items`.valueAt(0)) }, map)
+
+        assertFalse(map.replace(failEntry.key, failEntry.value, "failure"))
+
+
+        val entry1 = `map of 3 different items`.at(1)
+
+        assertEquals(`map of 3 different items`.valueAt(1), map.replace(entry1.key, `map of 4 different items`.valueAt(1)))
+
+        assertEquals(`map of 3 different items`.apply { replace(`map of 3 different items`.keyAt(1), `map of 4 different items`.valueAt(1)) }, map)
+
+        assertNull(map.replace(failEntry.key, "failure"))
+
+    }
+
+    @Test
+    open fun `test putIfAbsent`() {
+
+        val map = `get map to test`()
+
+        map.putAll(`map of 3 different items`)
+
+        map.assertSize(3)
+
+        assertEquals(`map of 3 different items`.valueAt(0), map.putIfAbsent(`map of 3 different items`.keyAt(0), "failure"))
+
+        map.assertSize(3)
+
+
+        val newEntry = `map of 4 different items`.at(0)
+
+        assertNull(map.putIfAbsent(newEntry.key, newEntry.value))
+
+        map.assertSize(4)
+
+        assertEquals(`map of 3 different items` + `map of 4 different items`.take(1), map)
+
+    }
+
     protected fun Map<*, *>.assertSize(size: Int) {
         assertEquals(size, this.size)
     }

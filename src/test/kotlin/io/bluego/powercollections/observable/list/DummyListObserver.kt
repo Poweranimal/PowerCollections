@@ -34,32 +34,32 @@ class DummyListObserver<E> : AbstractDummyObserver<Int, E?>, ListObserver<E> {
 
     override fun wasAdded(index: Int, element: E?) {
         if (isDebug) println("Added: index: $index element: $element")
-        addedList.add(index to element)
+        mAddedList.add(index to element)
     }
 
     override fun wasAdded(elements: Map<Int, E?>) {
         if (isDebug) println("Added: $elements")
-        addedList.addAll(elements.toList())
+        mAddedList.addAll(elements.toList())
     }
 
     override fun wasRemoved(index: Int, element: E?) {
         if (isDebug) println("Removed: index: $index element: $element")
-        removedList.add(index to element)
+        mRemovedList.add(index to element)
     }
 
     override fun wasRemoved(elements: Map<Int, E?>) {
         if (isDebug) println("Removed: $elements")
-        removedList.addAll(elements.toList())
+        mRemovedList.addAll(elements.toList())
     }
 
     override fun wasReplaced(index: Int, lastElement: E?, newElement: E?) {
         if (isDebug) println("Replaced $index: $lastElement with $newElement")
-        replacedList.add(index to (lastElement to newElement))
+        mReplacedList.add(index to (lastElement to newElement))
     }
 
     override fun wasReplaced(map: Map<Int, Pair<E?, E?>>) {
         if (isDebug) println("Replaced: $map")
-        replacedList.addAll(map.toList())
+        mReplacedList.addAll(map.toList())
     }
 
     override fun notifyDataChanged() {

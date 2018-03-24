@@ -34,32 +34,32 @@ class DummyMapObserver<K, V> : AbstractDummyObserver<K, V>, MapObserver<K, V> {
 
     override fun wasAdded(key: K, value: V) {
         if (isDebug) println("Added: key: $key value: $value")
-        addedList.add(key to value)
+        mAddedList.add(key to value)
     }
 
     override fun wasAdded(entries: Map<K, V>) {
         if (isDebug) println("Added: $entries")
-        addedList.addAll(entries.map(Map.Entry<K, V>::toPair))
+        mAddedList.addAll(entries.map(Map.Entry<K, V>::toPair))
     }
 
     override fun wasRemoved(key: K, value: V) {
         if (isDebug) println("Removed: key: $key value: $value")
-        removedList.add(key to value)
+        mRemovedList.add(key to value)
     }
 
     override fun wasRemoved(entries: Map<K, V>) {
         if (isDebug) println("Removed: $entries")
-        removedList.addAll(entries.map(Map.Entry<K, V>::toPair))
+        mRemovedList.addAll(entries.map(Map.Entry<K, V>::toPair))
     }
 
     override fun wasReplaced(key: K, lastValue: V, newValue: V) {
         if (isDebug) println("Replaced key: $key lastValue: $lastValue with newValue $newValue")
-        replacedList.add(key to (lastValue to newValue))
+        mReplacedList.add(key to (lastValue to newValue))
     }
 
     override fun wasReplaced(entries: Map<K, Pair<V, V>>) {
         if (isDebug) println("Replaced: $entries")
-        replacedList.addAll(entries.map(Map.Entry<K, Pair<V, V>>::toPair))
+        mReplacedList.addAll(entries.map(Map.Entry<K, Pair<V, V>>::toPair))
     }
 
     override fun notifyDataChanged() {

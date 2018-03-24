@@ -28,32 +28,32 @@ import kotlin.test.assertEquals
 
 abstract class AbstractDummyObserver<I, E>(val isDebug: Boolean = false) {
 
-    val addedList = mutableListOf<Pair<I, E>>()
-    val removedList = mutableListOf<Pair<I, E>>()
-    val replacedList = mutableListOf<Pair<I, Pair<E, E>>>()
+    protected val mAddedList = mutableListOf<Pair<I, E>>()
+    protected val mRemovedList = mutableListOf<Pair<I, E>>()
+    protected val mReplacedList = mutableListOf<Pair<I, Pair<E, E>>>()
 
     fun reset() {
-        removedList.clear()
-        addedList.clear()
-        replacedList.clear()
+        mRemovedList.clear()
+        mAddedList.clear()
+        mReplacedList.clear()
     }
 
     inline fun assertWasAdded(number: Int, action: () -> Unit) {
-        val start = addedList.size
+        val start = `access$mAddedList`.size
         action()
-        assertEquals(number, addedList.size - start, if (isDebug) "assertWasAdded" else null)
+        assertEquals(number, `access$mAddedList`.size - start, if (isDebug) "assertWasAdded" else null)
     }
 
     inline fun assertWasRemoved(number: Int, action: () -> Unit) {
-        val start = removedList.size
+        val start = `access$mRemovedList`.size
         action()
-        assertEquals(number, removedList.size - start, if (isDebug) "assertWasRemoved" else null)
+        assertEquals(number, `access$mRemovedList`.size - start, if (isDebug) "assertWasRemoved" else null)
     }
 
     inline fun assertWasReplaced(number: Int, action: () -> Unit) {
-        val start = replacedList.size
+        val start = `access$mReplacedList`.size
         action()
-        assertEquals(number, replacedList.size - start, if (isDebug) "AssertWasReplaced" else null)
+        assertEquals(number, `access$mReplacedList`.size - start, if (isDebug) "AssertWasReplaced" else null)
     }
 
     inline fun assertWas(added: Int, removed: Int, replaced: Int, action: () -> Unit) {
@@ -63,5 +63,15 @@ abstract class AbstractDummyObserver<I, E>(val isDebug: Boolean = false) {
             }
         }
     }
+
+    @PublishedApi
+    internal val `access$mAddedList`: MutableList<Pair<I, E>>
+        get() = mAddedList
+    @PublishedApi
+    internal val `access$mRemovedList`: MutableList<Pair<I, E>>
+        get() = mRemovedList
+    @PublishedApi
+    internal val `access$mReplacedList`: MutableList<Pair<I, Pair<E, E>>>
+        get() = mReplacedList
 
 }

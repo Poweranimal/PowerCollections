@@ -194,7 +194,6 @@ abstract class AbstractBoundedList<E>
 
     override fun forceAddAll(index: Int, elements: Collection<E>): Boolean {
         if (index !in 0 .. size) throw IndexOutOfBoundsException()
-
         val freeSpace = maxCapacity - size
         return if (elements.size > freeSpace) {
 
@@ -289,7 +288,7 @@ abstract class AbstractBoundedList<E>
         }
     }
 
-    /**
+    /*
      * IMPORTANT!!!
      *
      * The returned subList is not synchronized with this list.

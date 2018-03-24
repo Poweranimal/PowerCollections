@@ -237,6 +237,31 @@ open class BoundedMapTest: MapTest() {
 
     }
 
+    override fun `test putIfAbsent`() {
+
+        val map = `get map to test`()
+
+        map.putAll(`map of 3 different items`)
+
+        map.assertSize(3)
+
+        assertEquals(`map of 3 different items`.valueAt(0), map.putIfAbsent(`map of 3 different items`.keyAt(0), "failure"))
+
+        map.assertSize(3)
+
+
+        val newEntry = `map of 4 different items`.at(0)
+
+        assertFailsWith(IndexOutOfBoundsException::class) {
+            map.putIfAbsent(newEntry.key, newEntry.value)
+        }
+
+        map.assertSize(3)
+
+        assertEquals<Map<Int, String>>(`map of 3 different items`, map)
+
+    }
+
     protected fun <K, V> MutableBoundedMap<K, V>.forcePut(entry: Map.Entry<K, V>): Boolean {
         return this.forcePut(entry.key, entry.value)
     }

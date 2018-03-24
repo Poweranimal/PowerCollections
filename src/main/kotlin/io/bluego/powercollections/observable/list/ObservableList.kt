@@ -63,76 +63,47 @@ abstract class AbstractObservableList<E>: ArrayList<E>, MutableObservableList<E>
 
     override fun notifyDataChanged(index: Int) = mAdapter.notifyDataChanged(index)
 
-    override fun runSilentChanges(silentChanges: MutableList<E>.() -> Unit)
-            = mAdapter.runSilentChanges(silentChanges)
+    override fun runSilentChanges(silentChanges: MutableList<E>.() -> Unit) = mAdapter.runSilentChanges(silentChanges)
 
-    override fun add(element: E): Boolean {
-        return mAdapter.add(element) { e ->  super.add(e) }
-    }
+    override fun add(element: E): Boolean = mAdapter.add(element) { e ->  super.add(e) }
 
-    override fun add(index: Int, element: E) {
-        mAdapter.add(index, element) { i, e -> super.add(i, e) }
-    }
+    override fun add(index: Int, element: E) = mAdapter.add(index, element) { i, e -> super.add(i, e) }
 
-    override fun addAll(index: Int, elements: Collection<E>): Boolean {
-        return mAdapter.addAll(index, elements) { i, collection -> super.addAll(i, collection) }
-    }
+    override fun addAll(index: Int, elements: Collection<E>): Boolean
+            = mAdapter.addAll(index, elements) { i, collection -> super.addAll(i, collection) }
 
-    override fun iterator(): MutableIterator<E> {
-        return super.iterator()
-    }
+    override fun iterator(): MutableIterator<E> = super.iterator()
 
-    override fun listIterator(): MutableListIterator<E> {
-        return super.listIterator()
-    }
+    override fun listIterator(): MutableListIterator<E> = super.listIterator()
 
-    override fun listIterator(index: Int): MutableListIterator<E> {
-        return super.listIterator(index)
-    }
+    override fun listIterator(index: Int): MutableListIterator<E> = super.listIterator(index)
 
-    override fun subList(fromIndex: Int, toIndex: Int): MutableList<E> {
-        return mAdapter.subList(fromIndex, toIndex) { fi, ti -> super.subList(fi, ti) }
-    }
+    override fun subList(fromIndex: Int, toIndex: Int): MutableList<E>
+            = mAdapter.subList(fromIndex, toIndex) { fi, ti -> super.subList(fi, ti) }
 
-    override fun addAll(elements: Collection<E>): Boolean {
-        return mAdapter.addAll(elements) { collection -> super.addAll(collection) }
-    }
+    override fun addAll(elements: Collection<E>): Boolean =
+            mAdapter.addAll(elements) { collection -> super.addAll(collection) }
 
-    override fun clear() {
-        mAdapter.clear { super.clear() }
-    }
+    override fun clear() = mAdapter.clear { super.clear() }
 
-    override fun remove(element: E): Boolean {
-        return mAdapter.remove(element) { e -> super.remove(e) }
-    }
+    override fun remove(element: E): Boolean = mAdapter.remove(element) { e -> super.remove(e) }
 
-    override fun removeAll(elements: Collection<E>): Boolean {
-        return mAdapter.removeAll(elements) { collection -> super.removeAll(collection) }
-    }
+    override fun removeAll(elements: Collection<E>): Boolean
+            = mAdapter.removeAll(elements) { collection -> super.removeAll(collection) }
 
-    override fun removeAt(index: Int): E {
-        return mAdapter.removeAt(index) { i -> super.removeAt(i) }
-    }
+    override fun removeAt(index: Int): E = mAdapter.removeAt(index) { i -> super.removeAt(i) }
 
-    override fun set(index: Int, element: E): E {
-        return mAdapter.set(index, element) { i, e -> super.set(i, e) }
-    }
+    override fun set(index: Int, element: E): E = mAdapter.set(index, element) { i, e -> super.set(i, e) }
 
-    override fun replaceAll(p0: UnaryOperator<E>) {
-        return mAdapter.replaceAll(p0) { super<ArrayList>.replaceAll(p0) }
-    }
+    override fun replaceAll(p0: UnaryOperator<E>) = mAdapter.replaceAll(p0) { super<ArrayList>.replaceAll(p0) }
 
-    override fun retainAll(elements: Collection<E>): Boolean {
-        return mAdapter.retainAll(elements, this::listIterator)
-    }
+    override fun retainAll(elements: Collection<E>): Boolean = mAdapter.retainAll(elements, this::listIterator)
 
-    override fun removeIf(p0: Predicate<in E>): Boolean {
-        return mAdapter.removeIf(p0) { predicate -> super< ArrayList>.removeIf(predicate) }
-    }
+    override fun removeIf(p0: Predicate<in E>): Boolean
+            = mAdapter.removeIf(p0) { predicate -> super< ArrayList>.removeIf(predicate) }
 
-    override fun removeRange(fromIndex: Int, toIndex: Int) {
-        mAdapter.removeRange(fromIndex, toIndex) { fi, ti -> super.removeRange(fi, ti) }
-    }
+    override fun removeRange(fromIndex: Int, toIndex: Int)
+            = mAdapter.removeRange(fromIndex, toIndex) { fi, ti -> super.removeRange(fi, ti) }
 
 }
 

@@ -138,6 +138,9 @@ abstract class AbstractBoundedMap<K, V>
 
     override fun putAll(from: Map<out K, V>) = runSensitive { super.putAll(from) }
 
+    override fun putIfAbsent(key: K, value: V): V?
+            = runSensitive { super<java.util.LinkedHashMap>.putIfAbsent(key, value) }
+
     @Suppress("ReplacePutWithAssignment")
     override fun forcePut(key: K, value: V): Boolean
             = checkEldestEntryRemoved { super.put(key, value) }

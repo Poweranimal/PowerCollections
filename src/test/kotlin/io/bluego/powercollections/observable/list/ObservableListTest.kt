@@ -25,6 +25,8 @@
 package io.bluego.powercollections.observable.list
 
 import io.bluego.powercollections.ListTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @Suppress("RemoveRedundantBackticks")
 open class ObservableListTest : ListTest() {
@@ -69,6 +71,29 @@ open class ObservableListTest : ListTest() {
     override fun `test listIterator`() {
         mDummyObserver.assertWas(5, 3, 0) {
             super.`test listIterator`()
+        }
+    }
+
+    @Test
+    fun `test listIterator set add`() {
+        mDummyObserver.assertWas(4, 0, 3) {
+
+            val list = `get list to test`()
+
+            list.addAll(`list of 3 different items`)
+
+            list.listIterator().let {
+                var counter = 0
+                while (it.hasNext()) {
+                    it.next()
+                    it.set(`list of 4 different items`[counter])
+                    counter++
+                }
+
+                it.add(`list of 4 different items`.last())
+            }
+
+            assertEquals(`list of 4 different items`, list)
         }
     }
 

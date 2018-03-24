@@ -106,15 +106,33 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
     }
 
     open fun replace(p0: K, p1: V, p2: V, replace: (K, V, V) -> Boolean): Boolean {
-        throw NotImplementedError()
+        return if (!isSilent) {
+            val wasReplaced = replace(p0, p1, p2)
+            if (wasReplaced) mObserver.wasReplaced(p0, p1, p2)
+            wasReplaced
+        } else replace(p0, p1, p2)
     }
 
+    @Suppress("UNCHECKED_CAST", "ALWAYS_NULL")
     open fun putIfAbsent(p0: K, p1: V, putIfAbsent: (K, V) -> V?): V? {
-        throw NotImplementedError()
+        return if (!isSilent) {
+            val hasKey = mMap.containsKey(p0)
+            val oldValue = putIfAbsent(p0, p1)
+            if (oldValue === null) {
+                if (hasKey) mObserver.wasReplaced(p0, oldValue as V, p1)
+                else mObserver.wasAdded(p0, p1)
+            }
+            oldValue
+        } else putIfAbsent(p0, p1)
     }
 
+    @Suppress("UNCHECKED_CAST")
     open fun replace(p0: K, p1: V, replace: (K, V) -> V?): V? {
-        throw NotImplementedError()
+        return if (!isSilent) {
+            val oldValue = replace(p0, p1)
+            if (oldValue !== null || mMap.containsKey(p0)) mObserver.wasReplaced(p0, oldValue as V, p1)
+            oldValue
+        } else replace(p0, p1)
     }
 
     open fun replaceAll(p0: BiFunction<in K, in V, out V>,

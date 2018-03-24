@@ -25,8 +25,10 @@
 package io.bluego.powercollections.observable.map
 
 import io.bluego.powercollections.MapTest
+import org.junit.Test
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
-//TODO: add replaced tests
 class ObservableMapTest : MapTest() {
 
 
@@ -70,5 +72,74 @@ class ObservableMapTest : MapTest() {
         mDummyObserver.assertWas(3, 3, 0) {
             super.`test clear`()
         }
+    }
+
+    override fun `test replace`() {
+        mDummyObserver.assertWas(3, 0, 2) {
+            super.`test replace`()
+        }
+    }
+
+    override fun `test putIfAbsent`() {
+        mDummyObserver.assertWas(4, 0, 0) {
+            super.`test putIfAbsent`()
+        }
+    }
+
+    @Test
+    fun `test remove mutableEntry from entries`() {
+
+        mDummyObserver.assertWas(3, 1, 0) {
+
+            val map = `get map to test`()
+
+            map.putAll(`map of 3 different items`)
+
+            map.assertSize(3)
+
+            map.entries.remove(`map of 3 different items`.at(0))
+
+            map.assertSize(2)
+
+        }
+    }
+
+    @Test
+    fun `test replace from nullable value`() {
+
+        val dummyObserver = DummyMapObserver<Int, String?>()
+
+        dummyObserver.assertWas(3, 0, 2) {
+
+            val nullableMap = mutableObservableMapOf(dummyObserver,
+                    0 to null,
+                    1 to null,
+                    2 to "two"
+            )
+
+            assertTrue(nullableMap.replace(0, null, "zero"))
+
+            assertNull(nullableMap.replace(1, "one"))
+
+        }
+    }
+
+    @Test
+    fun `test putIfAbsent from nullable value`() {
+
+        val dummyObserver = DummyMapObserver<Int, String?>()
+
+        dummyObserver.assertWas(3, 0, 1) {
+
+            val nullableMap = mutableObservableMapOf(dummyObserver,
+                    0 to null,
+                    1 to null,
+                    2 to "two"
+            )
+
+            assertNull(nullableMap.putIfAbsent(0, "zero"))
+
+        }
+
     }
 }
