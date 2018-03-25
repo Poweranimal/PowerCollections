@@ -64,7 +64,7 @@ class WeakSetTest: SetTest<String?>() {
 
         System.gc()
 
-        collection.assertSize(4)
+        collection.forceOptimize()
 
         assertEquals(persistentClasses, collection.toList())
 
