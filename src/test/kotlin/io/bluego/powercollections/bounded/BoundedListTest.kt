@@ -25,41 +25,46 @@
 package io.bluego.powercollections.bounded
 
 import io.bluego.powercollections.ListTest
+import io.bluego.powercollections.assertSize
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-@Suppress("RemoveRedundantBackticks", "LocalVariableName")
-open class BoundedListTest: ListTest() {
+@Suppress("RemoveRedundantBackticks", "LocalVariableName", "PropertyName")
+open class BoundedListTest: ListTest<String>() {
 
+    override val `collection of 3 different items`: List<String>
+        get() = listOf("zero", "one", "two")
 
-    override fun `get list to test`(): MutableBoundedList<String> {
-        return mutableBoundedListOf(3)
-    }
+    override val `collection of 4 different items`: List<String>
+        get() = listOf("_zero", "_one", "_two", "three")
+
+    override val `get collection to test`: () -> MutableBoundedList<String>
+        get() = { mutableBoundedListOf(3) }
 
     @Test
     override fun `test addAll`() {
 
-        val `first BoundedList` = `get list to test`()
+        val `first BoundedList` = `get collection to test`()
 
-        assertTrue { `first BoundedList`.addAll(`list of 3 different items`) }
+        assertTrue { `first BoundedList`.addAll(`collection of 3 different items`) }
 
         `first BoundedList`.assertSize(3)
 
         assertFailsWith(IndexOutOfBoundsException::class) {
-            `first BoundedList`.addAll(`list of 3 different items`)
+            `first BoundedList`.addAll(`collection of 3 different items`)
         }
 
         `first BoundedList`.assertSize(3)
 
         /* _______________________________________________________________ */
 
-        val `second BoundedList` = `get list to test`()
+        val `second BoundedList` = `get collection to test`()
 
         assertFailsWith(IndexOutOfBoundsException::class) {
-            `second BoundedList`.addAll(`list of 4 different items`)
+            `second BoundedList`.addAll(`collection of 4 different items`)
         }
 
         `second BoundedList`.assertSize(0)
@@ -69,11 +74,11 @@ open class BoundedListTest: ListTest() {
     @Test
     override fun `test addAllByIndex`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        val `first item` = `list of 3 different items`.first()
+        val `first item` = `collection of 3 different items`.first()
 
-        val `collection from 1 to 3` = `list of 3 different items`.drop(1)
+        val `collection from 1 to 3` = `collection of 3 different items`.drop(1)
 
         assertTrue { boundedList.add(`first item`) }
 
@@ -92,7 +97,7 @@ open class BoundedListTest: ListTest() {
 
         assertFailsWith(IndexOutOfBoundsException::class) {
 
-            boundedList.addAll(0, `list of 4 different items`)
+            boundedList.addAll(0, `collection of 4 different items`)
         }
 
         boundedList.assertSize(3)
@@ -101,24 +106,24 @@ open class BoundedListTest: ListTest() {
     @Test
     open fun `test forceResize`() {
 
-        val `first boundedList` = `get list to test`()
+        val `first boundedList` = `get collection to test`()
 
         assertFalse { `first boundedList`.forceResize(1) }
 
-        assertTrue { `first boundedList`.add(`list of 3 different items`[0]) }
+        assertTrue { `first boundedList`.add(`collection of 3 different items`[0]) }
 
         `first boundedList`.assertSize(1)
 
         assertFailsWith(IndexOutOfBoundsException::class) {
-            `first boundedList`.add(`list of 3 different items`[1])
+            `first boundedList`.add(`collection of 3 different items`[1])
         }
 
         `first boundedList`.assertSize(1)
 
 
-        val `second boundedList` = `get list to test`()
+        val `second boundedList` = `get collection to test`()
 
-        assertTrue { `second boundedList`.addAll(`list of 3 different items`) }
+        assertTrue { `second boundedList`.addAll(`collection of 3 different items`) }
 
         `second boundedList`.assertSize(3)
 
@@ -126,10 +131,10 @@ open class BoundedListTest: ListTest() {
 
         `second boundedList`.assertSize(1)
 
-        assertEquals(`list of 3 different items`[2], `second boundedList`.first())
+        assertEquals(`collection of 3 different items`[2], `second boundedList`.first())
 
         assertFailsWith(IndexOutOfBoundsException::class) {
-            `second boundedList`.add(`list of 3 different items`[1])
+            `second boundedList`.add(`collection of 3 different items`[1])
         }
 
         `second boundedList`.assertSize(1)
@@ -139,18 +144,18 @@ open class BoundedListTest: ListTest() {
     @Test
     override fun `test add`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        assertTrue { boundedList.add(`list of 4 different items`[0]) }
+        assertTrue { boundedList.add(`collection of 4 different items`[0]) }
 
-        assertTrue { boundedList.add(`list of 4 different items`[1]) }
+        assertTrue { boundedList.add(`collection of 4 different items`[1]) }
 
-        assertTrue { boundedList.add(`list of 4 different items`[2]) }
+        assertTrue { boundedList.add(`collection of 4 different items`[2]) }
 
         boundedList.assertSize(3)
 
         assertFailsWith(IndexOutOfBoundsException::class) {
-            boundedList.add(`list of 4 different items`[3])
+            boundedList.add(`collection of 4 different items`[3])
         }
 
         boundedList.assertSize(3)
@@ -160,18 +165,18 @@ open class BoundedListTest: ListTest() {
     @Test
     override fun `test addByIndex`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        assertEquals(Unit, boundedList.add(0, `list of 4 different items`[0]) )
+        assertEquals(Unit, boundedList.add(0, `collection of 4 different items`[0]) )
 
-        assertEquals(Unit, boundedList.add(0, `list of 4 different items`[1]) )
+        assertEquals(Unit, boundedList.add(0, `collection of 4 different items`[1]) )
 
-        assertEquals(Unit, boundedList.add(0, `list of 4 different items`[2]) )
+        assertEquals(Unit, boundedList.add(0, `collection of 4 different items`[2]) )
 
         boundedList.assertSize(3)
 
         assertFailsWith(IndexOutOfBoundsException::class) {
-            boundedList.add(0, `list of 4 different items`[3])
+            boundedList.add(0, `collection of 4 different items`[3])
         }
 
         boundedList.assertSize(3)
@@ -181,51 +186,51 @@ open class BoundedListTest: ListTest() {
     @Test
     open fun `test forceAdd`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        assertFalse { boundedList.forceAdd(`list of 4 different items`[0]) }
+        assertFalse { boundedList.forceAdd(`collection of 4 different items`[0]) }
 
-        assertFalse { boundedList.forceAdd(`list of 4 different items`[1]) }
+        assertFalse { boundedList.forceAdd(`collection of 4 different items`[1]) }
 
-        assertFalse { boundedList.forceAdd(`list of 4 different items`[2]) }
-
-        boundedList.assertSize(3)
-
-        assertTrue { boundedList.forceAdd(`list of 4 different items`[3]) }
+        assertFalse { boundedList.forceAdd(`collection of 4 different items`[2]) }
 
         boundedList.assertSize(3)
 
-        assertTrue { boundedList.containsAll(`list of 4 different items`.drop(1)) }
+        assertTrue { boundedList.forceAdd(`collection of 4 different items`[3]) }
+
+        boundedList.assertSize(3)
+
+        assertTrue { boundedList.containsAll(`collection of 4 different items`.drop(1)) }
 
     }
 
     @Test
     open fun `test forceAddByIndex`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        assertFalse { boundedList.forceAdd(0, `list of 4 different items`[0]) }
+        assertFalse { boundedList.forceAdd(0, `collection of 4 different items`[0]) }
 
-        assertFalse { boundedList.forceAdd(0, `list of 4 different items`[1]) }
+        assertFalse { boundedList.forceAdd(0, `collection of 4 different items`[1]) }
 
-        assertFalse { boundedList.forceAdd(0, `list of 4 different items`[2]) }
-
-        boundedList.assertSize(3)
-
-        assertTrue { boundedList.forceAdd(1, `list of 4 different items`[3]) }
+        assertFalse { boundedList.forceAdd(0, `collection of 4 different items`[2]) }
 
         boundedList.assertSize(3)
 
-        assertTrue { boundedList.containsAll(`list of 4 different items`.take(2) + `list of 4 different items`[3]) }
+        assertTrue { boundedList.forceAdd(1, `collection of 4 different items`[3]) }
+
+        boundedList.assertSize(3)
+
+        assertTrue { boundedList.containsAll(`collection of 4 different items`.take(2) + `collection of 4 different items`[3]) }
 
     }
 
     @Test
     override fun `test iterator`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        assertTrue { boundedList.addAll(`list of 3 different items`)}
+        assertTrue { boundedList.addAll(`collection of 3 different items`)}
 
         val iterator = boundedList.iterator()
 
@@ -235,7 +240,7 @@ open class BoundedListTest: ListTest() {
 
             assertTrue { iterator.hasNext() }
 
-            if (it < 3) assertEquals(`list of 3 different items`[it], iterator.next())
+            if (it < 3) assertEquals(`collection of 3 different items`[it], iterator.next())
             else assertFailsWith(ArrayIndexOutOfBoundsException::class) { iterator.next() }
 
             assertEquals(Unit, iterator.remove())
@@ -249,9 +254,9 @@ open class BoundedListTest: ListTest() {
     @Test
     override fun `test listIterator`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        assertTrue { boundedList.addAll(`list of 3 different items`)}
+        assertTrue { boundedList.addAll(`collection of 3 different items`)}
 
         val listIterator = boundedList.listIterator()
 
@@ -261,7 +266,7 @@ open class BoundedListTest: ListTest() {
 
             assertTrue { listIterator.hasNext() }
 
-            assertEquals(`list of 3 different items`[it], listIterator.next())
+            assertEquals(`collection of 3 different items`[it], listIterator.next())
 
             assertEquals(it + 1, listIterator.nextIndex())
 
@@ -269,9 +274,9 @@ open class BoundedListTest: ListTest() {
 
             assertEquals(it, listIterator.previousIndex())
 
-            assertEquals(`list of 3 different items`[it], listIterator.previous())
+            assertEquals(`collection of 3 different items`[it], listIterator.previous())
 
-            assertEquals(`list of 3 different items`[it], listIterator.next())
+            assertEquals(`collection of 3 different items`[it], listIterator.next())
 
         }
 
@@ -283,7 +288,7 @@ open class BoundedListTest: ListTest() {
 
             assertTrue { `second listIterator`.hasNext() }
 
-            assertEquals(`list of 3 different items`[it], `second listIterator`.next())
+            assertEquals(`collection of 3 different items`[it], `second listIterator`.next())
 
             assertEquals(Unit, `second listIterator`.remove())
 
@@ -296,14 +301,14 @@ open class BoundedListTest: ListTest() {
 
         repeat(3) {
 
-            `third listIterator`.add(`list of 4 different items`[it])
+            `third listIterator`.add(`collection of 4 different items`[it])
         }
 
         boundedList.assertSize(3)
 
         assertFailsWith(IndexOutOfBoundsException::class) {
 
-            `third listIterator`.add(`list of 4 different items`[4])
+            `third listIterator`.add(`collection of 4 different items`[4])
         }
 
     }
@@ -311,9 +316,9 @@ open class BoundedListTest: ListTest() {
     @Test
     override fun `test listIteratorByIndex`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        assertTrue { boundedList.addAll(`list of 3 different items`)}
+        assertTrue { boundedList.addAll(`collection of 3 different items`)}
 
         val listIterator = boundedList.listIterator(1)
 
@@ -323,7 +328,7 @@ open class BoundedListTest: ListTest() {
 
             assertTrue { listIterator.hasNext() }
 
-            assertEquals(`list of 3 different items`[it + 1], listIterator.next())
+            assertEquals(`collection of 3 different items`[it + 1], listIterator.next())
 
             assertEquals(it + 1 + 1, listIterator.nextIndex())
 
@@ -331,9 +336,9 @@ open class BoundedListTest: ListTest() {
 
             assertEquals(it + 1, listIterator.previousIndex())
 
-            assertEquals(`list of 3 different items`[it + 1], listIterator.previous())
+            assertEquals(`collection of 3 different items`[it + 1], listIterator.previous())
 
-            assertEquals(`list of 3 different items`[it + 1], listIterator.next())
+            assertEquals(`collection of 3 different items`[it + 1], listIterator.next())
 
         }
 
@@ -345,7 +350,7 @@ open class BoundedListTest: ListTest() {
 
             assertTrue { `second listIterator`.hasNext() }
 
-            assertEquals(`list of 3 different items`[it + 1], `second listIterator`.next())
+            assertEquals(`collection of 3 different items`[it + 1], `second listIterator`.next())
 
             assertEquals(Unit, `second listIterator`.remove())
 
@@ -358,23 +363,23 @@ open class BoundedListTest: ListTest() {
 
         repeat(2) {
 
-            `third listIterator`.add(`list of 4 different items`[it])
+            `third listIterator`.add(`collection of 4 different items`[it])
         }
 
         boundedList.assertSize(3)
 
         assertFailsWith(IndexOutOfBoundsException::class) {
 
-            `third listIterator`.add(`list of 4 different items`[4])
+            `third listIterator`.add(`collection of 4 different items`[4])
         }
 
     }
 
     override fun `test subList`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        assertTrue { boundedList.addAll(`list of 3 different items`) }
+        assertTrue { boundedList.addAll(`collection of 3 different items`) }
 
         val subList = boundedList.subList(1, 3)
 
@@ -386,14 +391,14 @@ open class BoundedListTest: ListTest() {
 
         boundedList.assertSize(1)
 
-        assertTrue { boundedList.contains(`list of 3 different items`[0]) }
+        assertTrue { boundedList.contains(`collection of 3 different items`[0]) }
 
 
-        assertTrue { subList.add(`list of 4 different items`[0]) }
+        assertTrue { subList.add(`collection of 4 different items`[0]) }
 
         assertFailsWith(IndexOutOfBoundsException::class) {
 
-            subList.addAll(`list of 4 different items`.drop(1))
+            subList.addAll(`collection of 4 different items`.drop(1))
         }
 
         subList.assertSize(1)
@@ -405,7 +410,7 @@ open class BoundedListTest: ListTest() {
     @Test
     open fun `test maxCapacity`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
         assertEquals(3, boundedList.maxCapacity)
 
@@ -421,44 +426,44 @@ open class BoundedListTest: ListTest() {
     @Test
     open fun `test forceAddAll`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
         boundedList.assertSize(0)
 
-        assertTrue { boundedList.forceAddAll(`list of 4 different items`) }
+        assertTrue { boundedList.forceAddAll(`collection of 4 different items`) }
 
         boundedList.assertSize(3)
 
-        assertTrue { boundedList.forceAddAll(`list of 4 different items`.take(3)) }
+        assertTrue { boundedList.forceAddAll(`collection of 4 different items`.take(3)) }
     }
 
     @Test
     open fun `test forceAddAllByIndex`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
-        assertTrue { boundedList.addAll(`list of 3 different items`) }
-
-        boundedList.assertSize(3)
-
-        assertTrue { boundedList.forceAddAll(1, `list of 4 different items`.take(3)) }
+        assertTrue { boundedList.addAll(`collection of 3 different items`) }
 
         boundedList.assertSize(3)
 
-        assertEquals(`list of 4 different items`[0], boundedList[0])
+        assertTrue { boundedList.forceAddAll(1, `collection of 4 different items`.take(3)) }
 
-        assertEquals(`list of 4 different items`[1], boundedList[1])
+        boundedList.assertSize(3)
 
-        assertEquals(`list of 4 different items`[2], boundedList[2])
+        assertEquals(`collection of 4 different items`[0], boundedList[0])
 
-        assertFalse { boundedList.contains(`list of 4 different items`[3]) }
+        assertEquals(`collection of 4 different items`[1], boundedList[1])
+
+        assertEquals(`collection of 4 different items`[2], boundedList[2])
+
+        assertFalse { boundedList.contains(`collection of 4 different items`[3]) }
 
     }
 
     @Test
     open fun `test resize`() {
 
-        val boundedList = `get list to test`()
+        val boundedList = `get collection to test`()
 
         assertEquals(3, boundedList.maxCapacity)
 
@@ -472,16 +477,16 @@ open class BoundedListTest: ListTest() {
 
         boundedList.assertSize(0)
 
-        assertTrue { boundedList.addAll(`list of 3 different items`.take(2)) }
+        assertTrue { boundedList.addAll(`collection of 3 different items`.take(2)) }
 
         boundedList.assertSize(2)
 
         assertEquals(Unit, boundedList.resize(3))
 
-        assertTrue { boundedList.add(`list of 3 different items`[2]) }
+        assertTrue { boundedList.add(`collection of 3 different items`[2]) }
 
         assertFailsWith(IndexOutOfBoundsException::class) {
-            boundedList.add(`list of 4 different items`[0])
+            boundedList.add(`collection of 4 different items`[0])
         }
 
         assertFailsWith(IllegalStateException::class) {

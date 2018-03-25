@@ -28,14 +28,19 @@ import org.junit.Test
 import kotlin.test.*
 
 @Suppress("RemoveRedundantBackticks", "PropertyName", "LocalVariableName")
-open class MapTest {
+abstract class MapTest<K, V> {
 
-    open val `map of 3 different items` = linkedMapOf(0 to "zero", 1 to "one", 2 to "two")
+    protected abstract val `map of 3 different items`: LinkedHashMap<K, V>
 
-    open val `map of 4 different items` = linkedMapOf(10 to "ten", 11 to "eleven", 12 to "twelve", 13 to "thirteen")
+    protected abstract val `map of 4 different items`: LinkedHashMap<K, V>
 
-    open fun `get map to test`(): MutableMap<Int, String> {
-        return mutableMapOf()
+    protected abstract val `get map to test`: () -> MutableMap<K, V>
+
+    init {
+        @Suppress("LeakingThis")
+        assert(`map of 3 different items`.size == 3)
+        @Suppress("LeakingThis")
+        assert(`map of 4 different items`.size == 4)
     }
 
     @Test
@@ -140,9 +145,9 @@ open class MapTest {
 
         map.putAll(`map of 3 different items`.take(2))
 
-        assertEquals(`map of 3 different items`.valueAt(0), map[0])
+        assertEquals(`map of 3 different items`.valueAt(0), map[`map of 3 different items`.keyAt(0)])
 
-        assertEquals(`map of 3 different items`.valueAt(1), map[1])
+        assertEquals(`map of 3 different items`.valueAt(1), map[`map of 3 different items`.keyAt(1)])
 
         assertNull(map.get(`map of 3 different items`.keyAt(2)))
 
@@ -211,7 +216,7 @@ open class MapTest {
             entry.setValue(newValue)
         }
 
-        assertEquals(`map of 3 different items`.entries.map { it.key to newValue }, map.entries.map(Map.Entry<Int, String>::toPair))
+        assertEquals(`map of 3 different items`.entries.map { it.key to newValue }, map.entries.map(Map.Entry<K, V>::toPair))
 
     }
 
@@ -264,8 +269,9 @@ open class MapTest {
 
         map.putAll(`map of 3 different items`)
 
-        val failEntry = `map of 4 different items`.at(3)
+        val failEntry0 = `map of 4 different items`.at(2)
 
+        val failEntry1 = `map of 4 different items`.at(3)
 
         val entry0 = `map of 3 different items`.at(0)
 
@@ -273,16 +279,18 @@ open class MapTest {
 
         assertEquals(`map of 3 different items`.apply { replace(`map of 3 different items`.keyAt(0), `map of 4 different items`.valueAt(0)) }, map)
 
-        assertFalse(map.replace(failEntry.key, failEntry.value, "failure"))
+        assertFalse(map.replace(failEntry0.key, failEntry0.value, failEntry1.value))
 
 
         val entry1 = `map of 3 different items`.at(1)
 
         assertEquals(`map of 3 different items`.valueAt(1), map.replace(entry1.key, `map of 4 different items`.valueAt(1)))
 
-        assertEquals(`map of 3 different items`.apply { replace(`map of 3 different items`.keyAt(1), `map of 4 different items`.valueAt(1)) }, map)
+        assertEquals(`map of 3 different items`.apply {
+            replace(`map of 3 different items`.keyAt(0), `map of 4 different items`.valueAt(0))
+            replace(`map of 3 different items`.keyAt(1), `map of 4 different items`.valueAt(1)) }, map)
 
-        assertNull(map.replace(failEntry.key, "failure"))
+        assertNull(map.replace(failEntry0.key, failEntry1.value))
 
     }
 
@@ -291,11 +299,13 @@ open class MapTest {
 
         val map = `get map to test`()
 
+        val failEntry0 = `map of 4 different items`.at(3)
+
         map.putAll(`map of 3 different items`)
 
         map.assertSize(3)
 
-        assertEquals(`map of 3 different items`.valueAt(0), map.putIfAbsent(`map of 3 different items`.keyAt(0), "failure"))
+        assertEquals(`map of 3 different items`.valueAt(0), map.putIfAbsent(`map of 3 different items`.keyAt(0), failEntry0.value))
 
         map.assertSize(3)
 

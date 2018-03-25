@@ -29,13 +29,18 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("RemoveRedundantBackticks")
-open class ObservableListTest : ListTest() {
+open class ObservableListTest : ListTest<String>() {
+
+    override val `collection of 3 different items`: List<String>
+        get() = listOf("zero", "one", "two")
+
+    override val `collection of 4 different items`: List<String>
+        get() = listOf("_zero", "_one", "_two", "_three")
+
+    override val `get collection to test`: () -> MutableList<String>
+        get() = { mutableObservableListOf(mDummyObserver) }
 
     private val mDummyObserver = DummyListObserver<String>()
-
-    override fun `get list to test`(): MutableList<String> {
-        return mutableObservableListOf(mDummyObserver)
-    }
 
 
     override fun `test add`() {
@@ -78,22 +83,22 @@ open class ObservableListTest : ListTest() {
     fun `test listIterator set add`() {
         mDummyObserver.assertWas(4, 0, 3) {
 
-            val list = `get list to test`()
+            val list = `get collection to test`()
 
-            list.addAll(`list of 3 different items`)
+            list.addAll(`collection of 3 different items`)
 
             list.listIterator().let {
                 var counter = 0
                 while (it.hasNext()) {
                     it.next()
-                    it.set(`list of 4 different items`[counter])
+                    it.set(`collection of 4 different items`[counter])
                     counter++
                 }
 
-                it.add(`list of 4 different items`.last())
+                it.add(`collection of 4 different items`.last())
             }
 
-            assertEquals(`list of 4 different items`, list)
+            assertEquals(`collection of 4 different items`, list)
         }
     }
 

@@ -29,11 +29,16 @@ import org.junit.Test
 import kotlin.test.*
 
 @Suppress("RemoveRedundantBackticks", "PropertyName", "LocalVariableName")
-open class BoundedMapTest: MapTest() {
+open class BoundedMapTest: MapTest<Int, String>() {
 
-    override fun `get map to test`(): MutableBoundedMap<Int, String> {
-        return mutableBoundedMapOf(3)
-    }
+    override val `map of 3 different items`: LinkedHashMap<Int, String>
+        get() = linkedMapOf(0 to "zero", 1 to "one", 2 to "two")
+
+    override val `map of 4 different items`: LinkedHashMap<Int, String>
+        get() = linkedMapOf(10 to "ten", 11 to "eleven", 12 to "twelve", 13 to "thirteen")
+
+    override val `get map to test`: () -> MutableBoundedMap<Int, String>
+        get() = { mutableBoundedMapOf(3) }
 
     @Test
     override fun `test putAll`() {

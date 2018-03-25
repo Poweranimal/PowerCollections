@@ -29,14 +29,20 @@ import org.junit.Test
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class ObservableMapTest : MapTest() {
-
+@Suppress("PropertyName")
+class ObservableMapTest : MapTest<Int, String>() {
 
     private val mDummyObserver = DummyMapObserver<Int, String>()
 
-    override fun `get map to test`(): MutableMap<Int, String> {
-        return mutableObservableMapOf(mDummyObserver)
-    }
+    override val `map of 3 different items`: LinkedHashMap<Int, String>
+        get() = linkedMapOf(0 to "zero", 1 to "one", 2 to "two")
+
+    override val `map of 4 different items`: LinkedHashMap<Int, String>
+        get() = linkedMapOf(10 to "ten", 11 to "eleven", 12 to "twelve", 13 to "thirteen")
+
+    override val `get map to test`: () -> MutableObservableMap<Int, String>
+        get() = { mutableObservableMapOf(mDummyObserver) }
+
 
     override fun `test putAll`() {
         mDummyObserver.assertWas(3, 0, 0) {
