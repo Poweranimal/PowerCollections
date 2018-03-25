@@ -100,7 +100,7 @@ open class BoundedMapTest: MapTest<Int, String>() {
 
         `second boundedMap`.assertSize(1)
 
-        assertEquals(`map of 3 different items`.valueAt(2), `second boundedMap`.get(`map of 3 different items`.keyAt(2)))
+        assertEquals(`map of 3 different items`.valueAt(2), `second boundedMap`[`map of 3 different items`.keyAt(2)])
 
         assertFailsWith(IndexOutOfBoundsException::class) {
             `second boundedMap`.put(`map of 3 different items`.at(1))

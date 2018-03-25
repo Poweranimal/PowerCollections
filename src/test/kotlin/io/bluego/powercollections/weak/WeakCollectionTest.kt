@@ -64,10 +64,6 @@ open class WeakCollectionTest: CollectionTest<String?>() {
 
         System.gc()
 
-        collection.assertSize(4)
-
-        assertEquals(persistentClasses + listOf(null, null), collection.toList())
-
         collection.forceOptimize()
 
         assertEquals(persistentClasses, collection.toList())

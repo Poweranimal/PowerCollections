@@ -149,7 +149,7 @@ abstract class MapTest<K, V> {
 
         assertEquals(`map of 3 different items`.valueAt(1), map[`map of 3 different items`.keyAt(1)])
 
-        assertNull(map.get(`map of 3 different items`.keyAt(2)))
+        assertNull(map[`map of 3 different items`.keyAt(2)])
 
     }
 

@@ -28,7 +28,7 @@ import io.bluego.powercollections.ListTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@Suppress("RemoveRedundantBackticks")
+@Suppress("RemoveRedundantBackticks", "PropertyName")
 open class ObservableListTest : ListTest<String>() {
 
     override val `list of 3 different items`: List<String>

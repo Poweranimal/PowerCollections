@@ -26,6 +26,7 @@ package io.bluego.powercollections.observable
 
 import kotlin.test.assertEquals
 
+@Suppress("PropertyName")
 abstract class AbstractDummyObserver<I, E>(val isDebug: Boolean = false) {
 
     protected val mAddedList = mutableListOf<Pair<I, E>>()

@@ -79,7 +79,7 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
             from.entries.forEach { (key, value) ->
                 runSilentChanges {
                     val oldValue = put(key, value)
-                    if (oldValue !== null) replacedValues.put(key, oldValue to value)
+                    if (oldValue !== null) replacedValues[key] = oldValue to value
                     else addedValues[key] = value
                 }
             }
