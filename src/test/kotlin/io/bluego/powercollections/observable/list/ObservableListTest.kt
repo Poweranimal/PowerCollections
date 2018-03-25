@@ -31,10 +31,10 @@ import kotlin.test.assertEquals
 @Suppress("RemoveRedundantBackticks")
 open class ObservableListTest : ListTest<String>() {
 
-    override val `collection of 3 different items`: List<String>
+    override val `list of 3 different items`: List<String>
         get() = listOf("zero", "one", "two")
 
-    override val `collection of 4 different items`: List<String>
+    override val `list of 4 different items`: List<String>
         get() = listOf("_zero", "_one", "_two", "_three")
 
     override val `get collection to test`: () -> MutableList<String>
@@ -85,20 +85,20 @@ open class ObservableListTest : ListTest<String>() {
 
             val list = `get collection to test`()
 
-            list.addAll(`collection of 3 different items`)
+            list.addAll(`list of 3 different items`)
 
             list.listIterator().let {
                 var counter = 0
                 while (it.hasNext()) {
                     it.next()
-                    it.set(`collection of 4 different items`[counter])
+                    it.set(`list of 4 different items`[counter])
                     counter++
                 }
 
-                it.add(`collection of 4 different items`.last())
+                it.add(`list of 4 different items`.last())
             }
 
-            assertEquals(`collection of 4 different items`, list)
+            assertEquals(`list of 4 different items`, list)
         }
     }
 

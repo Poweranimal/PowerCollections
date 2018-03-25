@@ -24,7 +24,8 @@
 
 package io.bluego.powercollections.bounded
 
-import io.bluego.powercollections.removeAll
+import io.bluego.powercollections.bounded.Utils.checkInitialMaxCapacity
+import io.bluego.powercollections.bounded.Utils.checkResize
 
 /**
  * A [Map] that has a fixed capacity of [Map.entries].
@@ -173,6 +174,23 @@ abstract class AbstractBoundedMap<K, V>
         val result = mEldestEntryRemoved
         mEldestEntryRemoved = false
         return result
+    }
+
+    /**
+     * Remove [n] elements from [MutableIterator].
+     * Starts removing from the first [Iterator.next] element.
+     */
+    private fun <E> MutableIterator<E>.removeAll(n: Int) {
+        check(n > 0) { "n must be greater than 0" }
+        var counter = 0
+        do {
+            if (!hasNext()) throw IndexOutOfBoundsException("ERROR: n (= $n) is greater than the " +
+                    "iterators max size (= $counter)!")
+            if (counter >= n) return
+            next()
+            remove()
+            counter++
+        } while (true)
     }
 }
 

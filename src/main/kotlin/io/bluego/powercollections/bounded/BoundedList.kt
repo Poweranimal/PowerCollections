@@ -24,6 +24,8 @@
 
 package io.bluego.powercollections.bounded
 
+import io.bluego.powercollections.bounded.Utils.checkInitialMaxCapacity
+import io.bluego.powercollections.bounded.Utils.checkResize
 import java.util.*
 
 /**
@@ -296,6 +298,16 @@ abstract class AbstractBoundedList<E>
     //TODO: add sublist synchronization
     override fun subList(fromIndex: Int, toIndex: Int): MutableList<E>
             = super.subList(fromIndex, toIndex)
+
+    private fun <T, E> T.checkCapacity(elements: Collection<E>) where T: Boundable, T: Collection<E>
+            = checkCapacity(size + elements.size)
+
+    private fun <T, E> T.checkCapacity() where T: Boundable, T: Collection<E> = checkCapacity(size + 1)
+
+    private fun <T, E> T.checkCapacity(predictedSize: Int) where T: Boundable, T: Collection<E> {
+        if (predictedSize > maxCapacity) throw IndexOutOfBoundsException(
+                "The maxCapacity of $maxCapacity is already reached")
+    }
 }
 
 internal class BoundedListBuilder<E>: AbstractBoundedList<E> {

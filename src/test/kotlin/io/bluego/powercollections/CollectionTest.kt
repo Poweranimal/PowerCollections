@@ -33,18 +33,18 @@ import kotlin.test.assertTrue
 @Suppress("LocalVariableName", "PropertyName")
 abstract class CollectionTest<E> {
 
-    protected abstract val `collection of 3 different items`: Collection<E>
+    protected abstract val `list of 3 different items`: List<E>
 
-    protected abstract val `collection of 4 different items`: Collection<E>
+    protected abstract val `list of 4 different items`: List<E>
 
     protected abstract val `get collection to test`: () -> MutableCollection<E>
 
 
     init {
         @Suppress("LeakingThis")
-        assert(`collection of 3 different items`.size == 3)
+        assert(`list of 3 different items`.size == 3)
         @Suppress("LeakingThis")
-        assert(`collection of 4 different items`.size == 4)
+        assert(`list of 4 different items`.size == 4)
     }
 
     @Test
@@ -52,7 +52,7 @@ abstract class CollectionTest<E> {
 
         val collection = `get collection to test`()
 
-        assertTrue { collection.addAll(`collection of 3 different items`) }
+        assertTrue { collection.addAll(`list of 3 different items`) }
 
         collection.assertSize(3)
 
@@ -65,7 +65,7 @@ abstract class CollectionTest<E> {
 
         collection.assertSize(0)
 
-        assertTrue { collection.addAll(`collection of 3 different items`) }
+        assertTrue { collection.addAll(`list of 3 different items`) }
 
         collection.assertSize(3)
     }
@@ -75,23 +75,23 @@ abstract class CollectionTest<E> {
 
         val collection = `get collection to test`()
 
-        assertTrue { collection.addAll(`collection of 3 different items`) }
+        assertTrue { collection.addAll(`list of 3 different items`) }
 
         collection.assertSize(3)
 
-        assertTrue { collection.remove(`collection of 3 different items`[0]) }
+        assertTrue { collection.remove(`list of 3 different items`[0]) }
 
         collection.assertSize(2)
 
-        assertTrue { collection.remove(`collection of 3 different items`[1]) }
+        assertTrue { collection.remove(`list of 3 different items`[1]) }
 
         collection.assertSize(1)
 
-        assertTrue { collection.remove(`collection of 3 different items`[2]) }
+        assertTrue { collection.remove(`list of 3 different items`[2]) }
 
         collection.assertSize(0)
 
-        assertFalse { collection.remove(`collection of 3 different items`[2]) }
+        assertFalse { collection.remove(`list of 3 different items`[2]) }
 
         collection.assertSize(0)
 
@@ -102,15 +102,15 @@ abstract class CollectionTest<E> {
 
         val collection = `get collection to test`()
 
-        assertTrue { collection.addAll(`collection of 3 different items`) }
+        assertTrue { collection.addAll(`list of 3 different items`) }
 
         collection.assertSize(3)
 
-        assertTrue(collection.removeIf { it == `collection of 3 different items`[0] })
+        assertTrue(collection.removeIf { it == `list of 3 different items`[0] })
 
         collection.assertSize(2)
 
-        assertFalse(collection.removeIf { it == `collection of 3 different items`[0] })
+        assertFalse(collection.removeIf { it == `list of 3 different items`[0] })
 
         collection.assertSize(2)
 
@@ -121,11 +121,11 @@ abstract class CollectionTest<E> {
 
         val collection = `get collection to test`()
 
-        assertTrue { collection.add(`collection of 4 different items`[0]) }
+        assertTrue { collection.add(`list of 4 different items`[0]) }
 
-        assertTrue { collection.add(`collection of 4 different items`[1]) }
+        assertTrue { collection.add(`list of 4 different items`[1]) }
 
-        assertTrue { collection.add(`collection of 4 different items`[2]) }
+        assertTrue { collection.add(`list of 4 different items`[2]) }
 
         collection.assertSize(3)
 
@@ -136,13 +136,13 @@ abstract class CollectionTest<E> {
 
         val collection = `get collection to test`()
 
-        assertTrue { collection.addAll(`collection of 3 different items`.drop(1)) }
+        assertTrue { collection.addAll(`list of 3 different items`.drop(1)) }
 
-        assertTrue { collection.contains(`collection of 3 different items`[1]) }
+        assertTrue { collection.contains(`list of 3 different items`[1]) }
 
-        assertTrue { collection.contains(`collection of 3 different items`[2]) }
+        assertTrue { collection.contains(`list of 3 different items`[2]) }
 
-        assertFalse { collection.contains(`collection of 3 different items`[0]) }
+        assertFalse { collection.contains(`list of 3 different items`[0]) }
 
     }
 
@@ -151,11 +151,11 @@ abstract class CollectionTest<E> {
 
         val collection = `get collection to test`()
 
-        assertTrue { collection.addAll(`collection of 3 different items`) }
+        assertTrue { collection.addAll(`list of 3 different items`) }
 
-        assertTrue { collection.containsAll(`collection of 3 different items`) }
+        assertTrue { collection.containsAll(`list of 3 different items`) }
 
-        assertFalse { collection.containsAll(`collection of 4 different items`) }
+        assertFalse { collection.containsAll(`list of 4 different items`) }
     }
 
     @Test
@@ -163,7 +163,7 @@ abstract class CollectionTest<E> {
 
         val collection = `get collection to test`()
 
-        assertTrue { collection.addAll(`collection of 3 different items`) }
+        assertTrue { collection.addAll(`list of 3 different items`) }
 
         assertFalse { collection.isEmpty() }
 
@@ -178,7 +178,7 @@ abstract class CollectionTest<E> {
 
         val collection = `get collection to test`()
 
-        assertTrue { collection.addAll(`collection of 3 different items`) }
+        assertTrue { collection.addAll(`list of 3 different items`) }
 
         val iterator = collection.iterator()
 
@@ -188,7 +188,7 @@ abstract class CollectionTest<E> {
 
             assertTrue { iterator.hasNext() }
 
-            if (it < 3) assertEquals(`collection of 3 different items`[it], iterator.next())
+            if (it < 3) assertEquals(`list of 3 different items`[it], iterator.next())
             else assertFailsWith(ArrayIndexOutOfBoundsException::class) { iterator.next() }
 
             assertEquals(Unit, iterator.remove())
@@ -206,7 +206,7 @@ abstract class CollectionTest<E> {
 
         collection.assertSize(0)
 
-        assertTrue { collection.addAll(`collection of 3 different items`) }
+        assertTrue { collection.addAll(`list of 3 different items`) }
 
         collection.assertSize(3)
 
@@ -220,17 +220,17 @@ abstract class CollectionTest<E> {
 
         val collection = `get collection to test`()
 
-        assertTrue { collection.addAll(`collection of 3 different items`) }
+        assertTrue { collection.addAll(`list of 3 different items`) }
 
         collection.assertSize(3)
 
-        assertTrue { collection.retainAll(`collection of 3 different items`.drop(2)) }
+        assertTrue { collection.retainAll(`list of 3 different items`.drop(2)) }
 
         collection.assertSize(1)
 
-        assertEquals(`collection of 3 different items`[2], collection[0])
+        assertEquals(`list of 3 different items`[2], collection.first())
 
-        assertFalse { collection.retainAll(`collection of 3 different items`) }
+        assertFalse { collection.retainAll(`list of 3 different items`) }
 
         collection.assertSize(1)
 
@@ -241,30 +241,25 @@ abstract class CollectionTest<E> {
 
         val `first collection` = `get collection to test`()
 
-        assertTrue { `first collection`.addAll(`collection of 3 different items`) }
+        assertTrue { `first collection`.addAll(`list of 3 different items`) }
 
         `first collection`.assertSize(3)
 
-        assertTrue { `first collection`.removeAll(`collection of 3 different items`) }
+        assertTrue { `first collection`.removeAll(`list of 3 different items`) }
 
         `first collection`.assertSize(0)
 
 
         val `second collection` = `get collection to test`()
 
-        assertTrue { `second collection`.addAll(`collection of 3 different items`.take(2)) }
+        assertTrue { `second collection`.addAll(`list of 3 different items`.take(2)) }
 
         `second collection`.assertSize(2)
 
-        assertFalse { `second collection`.removeAll(`collection of 4 different items`) }
+        assertFalse { `second collection`.removeAll(`list of 4 different items`) }
 
         `second collection`.assertSize(2)
 
-    }
-
-    private operator fun <E> Collection<E>.get(index: Int): E {
-        return if (this is MutableList) this[index]
-        else this.asIterable().elementAt(index)
     }
 
 }

@@ -24,26 +24,15 @@
 
 package io.bluego.powercollections.bounded
 
-interface Boundable {
+internal object Utils {
 
-    /**
-     * The max capacity of the implementing list.
-     * Cannot contain more items than the determined max capacity.
-     */
-    val maxCapacity: Int
+    fun checkResize(currentSize: Int, newSize: Int) {
+        if (newSize < currentSize) throw IllegalStateException("Resizing would lose data")
+    }
+
+    fun checkInitialMaxCapacity(initialMaxCapacity: Int) {
+        if (initialMaxCapacity <= 0) throw IndexOutOfBoundsException(
+                "The minimum maxCapacity must be greater than 0")
+    }
+
 }
-
-interface MutableBoundable : Boundable {
-
-    /**
-     * Increases or decreases the [maxCapacity].
-     */
-    fun resize(newSize: Int)
-
-    /**
-     * Increases or decreases the [maxCapacity].
-     * @return true, if item/s got removed
-     */
-    fun forceResize(newSize: Int): Boolean
-}
-

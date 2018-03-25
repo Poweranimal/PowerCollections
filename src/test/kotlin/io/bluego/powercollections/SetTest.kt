@@ -22,28 +22,53 @@
  * SOFTWARE.
  */
 
-package io.bluego.powercollections.bounded
+package io.bluego.powercollections
 
-interface Boundable {
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
-    /**
-     * The max capacity of the implementing list.
-     * Cannot contain more items than the determined max capacity.
-     */
-    val maxCapacity: Int
+@Suppress("PropertyName")
+abstract class SetTest<E>: CollectionTest<E>() {
+
+    abstract override val `list of 3 different items`: List<E>
+
+    abstract override val `list of 4 different items`: List<E>
+
+    abstract override val `get collection to test`: () -> MutableSet<E>
+
+
+    @Test
+    open fun `test add same item`() {
+
+        val set = `get collection to test`()
+
+        assertTrue(set.add(`list of 3 different items`[0]))
+
+        set.assertSize(1)
+
+        assertFalse(set.add(`list of 3 different items`[0]))
+
+        set.assertSize(1)
+
+        assertEquals(`list of 3 different items`.take(1), set.toList())
+    }
+
+    @Test
+    open fun `test addAll same item`() {
+
+        val set = `get collection to test`()
+
+        assertTrue(set.addAll(`list of 3 different items`))
+
+        set.assertSize(3)
+
+        assertFalse(set.addAll(`list of 3 different items`))
+
+        set.assertSize(3)
+
+        assertEquals(`list of 3 different items`, set.toList())
+
+    }
 }
-
-interface MutableBoundable : Boundable {
-
-    /**
-     * Increases or decreases the [maxCapacity].
-     */
-    fun resize(newSize: Int)
-
-    /**
-     * Increases or decreases the [maxCapacity].
-     * @return true, if item/s got removed
-     */
-    fun forceResize(newSize: Int): Boolean
-}
-

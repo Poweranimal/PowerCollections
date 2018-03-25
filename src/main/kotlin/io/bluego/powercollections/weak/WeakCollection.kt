@@ -24,24 +24,14 @@
 
 package io.bluego.powercollections.weak
 
-import java.lang.ref.ReferenceQueue
+import io.bluego.powercollections.weak.adapter.WeakCollectionAdapter
+import io.bluego.powercollections.weak.adapter.WeakElement
 import java.lang.ref.WeakReference
 
 /**
  * All elements of the [Collection] are wrapped in a [WeakReference].
  */
-interface WeakCollection<out T>: Collection<T> {
-
-    /**
-     * Removes all empty items that has been garbage collected.
-     */
-    fun optimize()
-
-    /**
-     * Removes all empty items that has been garbage collected.
-     */
-    fun forceOptimize()
-}
+interface WeakCollection<out T>: Collection<T>, Weakable
 
 /**
  * All elements of the [MutableCollection] are wrapped in a [WeakReference].
@@ -55,113 +45,34 @@ abstract class AbstractWeakCollection<T: Any> protected constructor(
 
     constructor(): this(arrayListOf())
 
-    private val mQueue = ReferenceQueue<T?>()
+    private val mAdapter = WeakCollectionAdapter(mCollection)
 
-    override fun add(element: T?): Boolean {
-        processQueue()
-        return WeakElement.create(element, mQueue)?.let { mCollection.add(it) } ?: false
-    }
+    override fun add(element: T?): Boolean = mAdapter.add(element, mCollection::add)
 
-    override fun addAll(elements: Collection<T?>): Boolean {
-        processQueue()
-        return elements.mapNotNull { WeakElement.create(it, mQueue) }.let {
-            if (it.isEmpty()) false
-            else mCollection.addAll(it)
-        }
-    }
+    override fun addAll(elements: Collection<T?>): Boolean = mAdapter.addAll(elements, mCollection::addAll)
 
-    override fun clear() = mCollection.clear()
+    override fun clear() = mAdapter.clear(mCollection::clear)
 
-    override fun iterator(): MutableIterator<T?> {
-        processQueue()
-        return ReferenceIterator(mCollection.iterator())
-    }
+    override fun iterator(): MutableIterator<T?> = mAdapter.iterator(mCollection::iterator)
 
-    override fun remove(element: T?): Boolean =
-            mCollection.remove(WeakElement.create(element)).apply { processQueue() }
+    override fun remove(element: T?): Boolean = mAdapter.remove(element, mCollection::remove)
 
-    override fun removeAll(elements: Collection<T?>): Boolean =
-            mCollection.removeAll(elements.map { WeakElement.create(it) })
+    override fun removeAll(elements: Collection<T?>): Boolean = mAdapter.removeAll(elements, mCollection::removeAll)
 
-    override fun retainAll(elements: Collection<T?>): Boolean {
-        processQueue()
-        return mCollection.retainAll(elements.map { WeakElement.create(it) })
-    }
+    override fun retainAll(elements: Collection<T?>): Boolean = mAdapter.retainAll(elements, mCollection::retainAll)
 
     override val size: Int
-        get() {
-            processQueue()
-            return mCollection.size
-        }
+        get() = mAdapter.size(mCollection::size)
 
-    override fun contains(element: T?): Boolean = mCollection.contains(WeakElement.create(element))
+    override fun contains(element: T?): Boolean = mAdapter.contains(element, mCollection::contains)
 
-    override fun containsAll(elements: Collection<T?>): Boolean {
-        val weakElements = elements.map { WeakElement.create(it) }
-        return mCollection.containsAll(weakElements)
-    }
+    override fun containsAll(elements: Collection<T?>): Boolean = mAdapter.containsAll(elements, mCollection::containsAll)
 
-    override fun isEmpty(): Boolean = mCollection.isEmpty()
+    override fun isEmpty(): Boolean = mAdapter.isEmpty(mCollection::isEmpty)
 
-    override fun optimize() = processQueue()
+    override fun optimize() = mAdapter.optimize()
 
-    override fun forceOptimize() {
-        iterator().let {
-            while (it.hasNext()) { it.next() ?: it.remove() }
-        }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun processQueue() {
-        do mQueue.poll()?.apply { mCollection.remove(this as WeakElement<T>) } ?: return
-        while (true)
-    }
-
-    private inner class ReferenceIterator(private val mIterator: MutableIterator<WeakElement<T>>)
-        : MutableIterator<T?>
-    {
-        override fun hasNext(): Boolean = mIterator.hasNext()
-
-        override fun next(): T? = mIterator.next().get()
-
-        override fun remove() = mIterator.remove()
-    }
-
-    class WeakElement<T: Any> : WeakReference<T>
-    {
-        private var hash: Int = 0 /* Hashcode of key, stored here since the key
-                           may be tossed by the GC */
-
-
-        private constructor(element: T) : super(element) {
-            hash = element.hashCode()
-        }
-
-        private constructor(element: T, q: ReferenceQueue<T?>) : super(element, q) {
-            hash = element.hashCode()
-        }
-
-        companion object {
-
-            fun <T: Any> create(element: T?):  WeakElement<T>? =
-                    if (element === null) null else WeakElement(element)
-
-            fun <T: Any> create(element: T?, queue: ReferenceQueue<T?>):  WeakElement<T>? =
-                    if (element === null) null else WeakElement(element, queue)
-
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (other !is WeakElement<*>) return false
-            val t = this.get()
-            val u = other.get()
-            if (t === u) return true
-            return if (t == null || u == null) false else t == u
-        }
-
-        override fun hashCode(): Int = hash
-    }
+    override fun forceOptimize() = mAdapter.forceOptimize()
 }
 
 class HashWeakCollection<T: Any>(capacity: Int = 16) : AbstractWeakCollection<T>(ArrayList(capacity)) {

@@ -22,28 +22,17 @@
  * SOFTWARE.
  */
 
-package io.bluego.powercollections.bounded
+package io.bluego.powercollections.weak
 
-interface Boundable {
+interface Weakable {
 
     /**
-     * The max capacity of the implementing list.
-     * Cannot contain more items than the determined max capacity.
+     * Removes all empty items that has been garbage collected.
      */
-    val maxCapacity: Int
+    fun optimize()
+
+    /**
+     * Removes all empty items that has been garbage collected.
+     */
+    fun forceOptimize()
 }
-
-interface MutableBoundable : Boundable {
-
-    /**
-     * Increases or decreases the [maxCapacity].
-     */
-    fun resize(newSize: Int)
-
-    /**
-     * Increases or decreases the [maxCapacity].
-     * @return true, if item/s got removed
-     */
-    fun forceResize(newSize: Int): Boolean
-}
-

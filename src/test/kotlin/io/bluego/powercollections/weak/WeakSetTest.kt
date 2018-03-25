@@ -24,13 +24,13 @@
 
 package io.bluego.powercollections.weak
 
-import io.bluego.powercollections.CollectionTest
+import io.bluego.powercollections.SetTest
 import io.bluego.powercollections.assertSize
 import org.junit.Test
 import kotlin.test.assertEquals
 
 @Suppress("PropertyName")
-open class WeakCollectionTest: CollectionTest<String?>() {
+class WeakSetTest: SetTest<String?>() {
 
     override val `list of 3 different items`: List<String>
         get() = listOf("zero", "one", "two")
@@ -38,8 +38,8 @@ open class WeakCollectionTest: CollectionTest<String?>() {
     override val `list of 4 different items`: List<String>
         get() = listOf("_zero", "_one", "_two", "_three")
 
-    override val `get collection to test`: () -> MutableWeakCollection<String?>
-        get() = { mutableWeakCollectionOf() }
+    override val `get collection to test`: () -> MutableWeakSet<String?>
+        get() = { mutableWeakSetOf() }
 
     override fun `test addAll`() {
         super.`test addAll`()
@@ -65,10 +65,6 @@ open class WeakCollectionTest: CollectionTest<String?>() {
         System.gc()
 
         collection.assertSize(4)
-
-        assertEquals(persistentClasses + listOf(null, null), collection.toList())
-
-        collection.forceOptimize()
 
         assertEquals(persistentClasses, collection.toList())
 

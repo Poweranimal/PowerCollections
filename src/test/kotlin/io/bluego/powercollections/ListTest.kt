@@ -33,9 +33,9 @@ import kotlin.test.assertTrue
 abstract class ListTest<E>: CollectionTest<E>() {
 
 
-    abstract override val `collection of 3 different items`: List<E>
+    abstract override val `list of 3 different items`: List<E>
 
-    abstract override val `collection of 4 different items`: List<E>
+    abstract override val `list of 4 different items`: List<E>
 
     abstract override val `get collection to test`: () -> MutableList<E>
 
@@ -45,9 +45,9 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        val `first item` = `collection of 3 different items`.first()
+        val `first item` = `list of 3 different items`.first()
 
-        val `collection from 1 to 2` = `collection of 3 different items`.drop(1)
+        val `collection from 1 to 2` = `list of 3 different items`.drop(1)
 
         assertTrue { list.add(`first item`) }
 
@@ -70,19 +70,19 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        assertTrue { list.addAll(`collection of 3 different items`) }
+        assertTrue { list.addAll(`list of 3 different items`) }
 
         list.assertSize(3)
 
-        assertEquals(`collection of 3 different items`[2], list.removeAt(2))
+        assertEquals(`list of 3 different items`[2], list.removeAt(2))
 
         list.assertSize(2)
 
-        assertEquals(`collection of 3 different items`[1], list.removeAt(1))
+        assertEquals(`list of 3 different items`[1], list.removeAt(1))
 
         list.assertSize(1)
 
-        assertEquals(`collection of 3 different items`[0], list.removeAt(0))
+        assertEquals(`list of 3 different items`[0], list.removeAt(0))
 
         list.assertSize(0)
 
@@ -99,11 +99,11 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        assertEquals(Unit, list.add(0, `collection of 4 different items`[0]))
+        assertEquals(Unit, list.add(0, `list of 4 different items`[0]))
 
-        assertEquals(Unit, list.add(0, `collection of 4 different items`[1]))
+        assertEquals(Unit, list.add(0, `list of 4 different items`[1]))
 
-        assertEquals(Unit, list.add(0, `collection of 4 different items`[2]))
+        assertEquals(Unit, list.add(0, `list of 4 different items`[2]))
 
         list.assertSize(3)
 
@@ -114,13 +114,13 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        assertTrue { list.addAll(`collection of 3 different items`.take(2)) }
+        assertTrue { list.addAll(`list of 3 different items`.take(2)) }
 
-        assertEquals(0, list.indexOf(`collection of 3 different items`[0]))
+        assertEquals(0, list.indexOf(`list of 3 different items`[0]))
 
-        assertEquals(1, list.indexOf(`collection of 3 different items`[1]))
+        assertEquals(1, list.indexOf(`list of 3 different items`[1]))
 
-        assertEquals(-1, list.indexOf(`collection of 3 different items`[2]))
+        assertEquals(-1, list.indexOf(`list of 3 different items`[2]))
 
 
     }
@@ -130,19 +130,19 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        assertTrue { list.add(`collection of 3 different items`[0]) }
+        assertTrue { list.add(`list of 3 different items`[0]) }
 
-        assertEquals(0, list.lastIndexOf(`collection of 3 different items`[0]))
+        assertEquals(0, list.lastIndexOf(`list of 3 different items`[0]))
 
-        assertEquals(Unit, list.add(0, `collection of 3 different items`[1]))
+        assertEquals(Unit, list.add(0, `list of 3 different items`[1]))
 
-        assertEquals(1, list.lastIndexOf(`collection of 3 different items`[0]))
+        assertEquals(1, list.lastIndexOf(`list of 3 different items`[0]))
 
-        assertEquals(-1, list.lastIndexOf(`collection of 3 different items`[2]))
+        assertEquals(-1, list.lastIndexOf(`list of 3 different items`[2]))
 
-        assertTrue { list.remove(`collection of 3 different items`[0]) }
+        assertTrue { list.remove(`list of 3 different items`[0]) }
 
-        assertEquals(-1, list.lastIndexOf(`collection of 3 different items`[0]))
+        assertEquals(-1, list.lastIndexOf(`list of 3 different items`[0]))
     }
 
     @Test
@@ -150,7 +150,7 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        assertTrue { list.addAll(`collection of 3 different items`) }
+        assertTrue { list.addAll(`list of 3 different items`) }
 
         val listIterator = list.listIterator()
 
@@ -160,7 +160,7 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
             assertTrue { listIterator.hasNext() }
 
-            assertEquals(`collection of 3 different items`[it], listIterator.next())
+            assertEquals(`list of 3 different items`[it], listIterator.next())
 
             assertEquals(it + 1, listIterator.nextIndex())
 
@@ -168,9 +168,9 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
             assertEquals(it, listIterator.previousIndex())
 
-            assertEquals(`collection of 3 different items`[it], listIterator.previous())
+            assertEquals(`list of 3 different items`[it], listIterator.previous())
 
-            assertEquals(`collection of 3 different items`[it], listIterator.next())
+            assertEquals(`list of 3 different items`[it], listIterator.next())
 
         }
 
@@ -182,7 +182,7 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
             assertTrue { `second listIterator`.hasNext() }
 
-            assertEquals(`collection of 3 different items`[it], `second listIterator`.next())
+            assertEquals(`list of 3 different items`[it], `second listIterator`.next())
 
             assertEquals(Unit, `second listIterator`.remove())
 
@@ -195,7 +195,7 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         repeat(2) {
 
-            `third listIterator`.add(`collection of 4 different items`[it])
+            `third listIterator`.add(`list of 4 different items`[it])
         }
 
         list.assertSize(2)
@@ -207,7 +207,7 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        assertTrue { list.addAll(`collection of 3 different items`) }
+        assertTrue { list.addAll(`list of 3 different items`) }
 
         val listIterator = list.listIterator(1)
 
@@ -217,7 +217,7 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
             assertTrue { listIterator.hasNext() }
 
-            assertEquals(`collection of 3 different items`[it + 1], listIterator.next())
+            assertEquals(`list of 3 different items`[it + 1], listIterator.next())
 
             assertEquals(it + 1 + 1, listIterator.nextIndex())
 
@@ -225,9 +225,9 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
             assertEquals(it + 1, listIterator.previousIndex())
 
-            assertEquals(`collection of 3 different items`[it + 1], listIterator.previous())
+            assertEquals(`list of 3 different items`[it + 1], listIterator.previous())
 
-            assertEquals(`collection of 3 different items`[it + 1], listIterator.next())
+            assertEquals(`list of 3 different items`[it + 1], listIterator.next())
 
         }
 
@@ -239,7 +239,7 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
             assertTrue { `second listIterator`.hasNext() }
 
-            assertEquals(`collection of 3 different items`[it + 1], `second listIterator`.next())
+            assertEquals(`list of 3 different items`[it + 1], `second listIterator`.next())
 
             assertEquals(Unit, `second listIterator`.remove())
 
@@ -252,7 +252,7 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         repeat(1) {
 
-            `third listIterator`.add(`collection of 4 different items`[it])
+            `third listIterator`.add(`list of 4 different items`[it])
         }
 
         list.assertSize(2)
@@ -264,7 +264,7 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        assertTrue { list.addAll(`collection of 3 different items`) }
+        assertTrue { list.addAll(`list of 3 different items`) }
 
         val subList = list.subList(1, 3)
 
@@ -276,11 +276,11 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         list.assertSize(1)
 
-        assertTrue { list.contains(`collection of 3 different items`[0]) }
+        assertTrue { list.contains(`list of 3 different items`[0]) }
 
-        assertTrue { subList.add(`collection of 4 different items`[0]) }
+        assertTrue { subList.add(`list of 4 different items`[0]) }
 
-        assertTrue { subList.addAll(`collection of 4 different items`.drop(1)) }
+        assertTrue { subList.addAll(`list of 4 different items`.drop(1)) }
 
         subList.assertSize(4)
 
@@ -293,19 +293,19 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        assertTrue { list.addAll(`collection of 3 different items`) }
+        assertTrue { list.addAll(`list of 3 different items`) }
 
         list.assertSize(3)
 
-        assertEquals(`collection of 3 different items`[0], list.set(0, `collection of 4 different items`[0]))
+        assertEquals(`list of 3 different items`[0], list.set(0, `list of 4 different items`[0]))
 
         list.assertSize(3)
 
-        assertTrue { list.containsAll(`collection of 3 different items`.drop(1) + `collection of 4 different items`[0]) }
+        assertTrue { list.containsAll(`list of 3 different items`.drop(1) + `list of 4 different items`[0]) }
 
         assertFailsWith(IndexOutOfBoundsException::class) {
 
-            list[3] = `collection of 4 different items`[1]
+            list[3] = `list of 4 different items`[1]
         }
     }
 
@@ -314,11 +314,11 @@ abstract class ListTest<E>: CollectionTest<E>() {
 
         val list = `get collection to test`()
 
-        assertTrue { list.addAll(`collection of 3 different items`.take(2)) }
+        assertTrue { list.addAll(`list of 3 different items`.take(2)) }
 
-        assertEquals(`collection of 3 different items`[0], list[0])
+        assertEquals(`list of 3 different items`[0], list[0])
 
-        assertEquals(`collection of 3 different items`[1], list[1])
+        assertEquals(`list of 3 different items`[1], list[1])
 
         assertFailsWith(IndexOutOfBoundsException::class) {
             list[2]
