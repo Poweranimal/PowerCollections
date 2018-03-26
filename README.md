@@ -5,12 +5,12 @@ API development. It's entirely written in Kotlin.
 ## Contents
 | Name | Description |
 |------|-------------|
-| [BoundedList](#BoundedList) | `List` with a max size of elements
-| [BoundedMap](#BoundedMap) | `Map` with a max size of entries
-| [ObservableList](#ObservableList) | `List` that observes all content altering commands
-| [ObservableMap](#ObservableMap) | `Map` that observes all content altering commands
-| [WeakCollection](#WeakCollection) | `Collection` that wraps all elements in `WeakReferences`
-| [WeakSet](#WeakSet) | `Set` that wraps all elements in `WeakReferences`
+| [BoundedList](#boundedlist) | `List` with a max size of elements
+| [BoundedMap](#boundedmap) | `Map` with a max size of entries
+| [ObservableList](#observablelist) | `List` that observes all content altering commands
+| [ObservableMap](#observablemap) | `Map` that observes all content altering commands
+| [WeakCollection](#weakcollection) | `Collection` that wraps all elements in `WeakReferences`
+| [WeakSet](#weakset) | `Set` that wraps all elements in `WeakReferences`
 
 ## Samples
 ### BoundedList
