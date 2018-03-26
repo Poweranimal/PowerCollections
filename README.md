@@ -252,7 +252,6 @@ A `Map` that observes all content altering commands.
 ```
 You can manually inform `ObservableMap`, if changes are made inside a class.
 ```kotlin
-
  data class MyClass(var tag: String)
 
  val observableMap: MutableObservableMap<Int, MyClass> by PowerCollections.observableMap {
