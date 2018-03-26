@@ -1,8 +1,8 @@
-#PowerCollections
+ #PowerCollections
 **PowerCollections** is a library with a set of useful `Collections`, `Sets`, `Lists` and `Maps` primary designed for the SDK / 
 API development. It's entirely written in Kotlin.
 
-##Contents
+ ##Contents
 | Name | Description |
 |------|-------------|
 | [BoundedList](#BoundedList) | `List` with a max size of elements
@@ -12,8 +12,8 @@ API development. It's entirely written in Kotlin.
 | [WeakCollection](#WeakCollection) | `Collection` that wraps all elements in `WeakReferences`
 | [WeakSet](#WeakSet) | `Set` that wraps all elements in `WeakReferences`
 
-##Samples
-###BoundedList
+ ##Samples
+ ###BoundedList
 A `List` with a max size of `n`-elements.
 ```kotlin
  /*
@@ -65,7 +65,7 @@ A `List` with a max size of `n`-elements.
  val boundedList = boundedList(2)
 ```
 
-###BoundedMap
+ ###BoundedMap
 A `Map` with a max size of `n`-entries.
 ```kotlin
  /*
@@ -117,7 +117,7 @@ A `Map` with a max size of `n`-entries.
  val boundedMap = boundedMap(2)
 ```
 
-###ObservableList
+ ###ObservableList
 A `List` that observes all content altering commands.
 ```kotlin
 /*
@@ -201,7 +201,7 @@ You can manually inform `ObservableList`, if changes are made inside a class.
   
  val observableList = observableList { }
 ```
-###ObservableMap
+ ###ObservableMap
 A `Map` that observes all content altering commands.
 ```kotlin
 /*
@@ -286,7 +286,7 @@ You can manually inform `ObservableMap`, if changes are made inside a class.
  val observableMap = observableMap { }
 ```
 
-###WeakCollection
+ ###WeakCollection
 A `Collection` that wraps all elements in `WeakReferences`.
 ```kotlin
 
@@ -338,7 +338,7 @@ object MyGlobalClient {
  val weakCollection = weakCollection()
 ```
 
-###WeakSet
+ ###WeakSet
 A `Set` that wraps all elements in `WeakReferences`.
 ```kotlin
 
@@ -390,7 +390,7 @@ object MyGlobalClient {
  val weakSet = weakSet()
 ```
 
-##Download
+ ##Download
 Add it in your root build.gradle at the end of repositories:
 
 **Step 1.** Add the JitPack repository to your build file
@@ -408,7 +408,7 @@ dependencies {
 }
 ```
 
-##License
+ ##License
 See [here](LICENSE.md).
 ```
  MIT License
