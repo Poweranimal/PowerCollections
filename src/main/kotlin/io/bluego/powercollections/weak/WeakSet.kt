@@ -31,12 +31,12 @@ import java.lang.ref.WeakReference
 /**
  * All elements of the [Set] are wrapped in a [WeakReference].
  */
-interface WeakSet<out T>: Set<T>, Weakable
+interface WeakSet<out T>: Set<T>, WeakCollection<T>
 
 /**
  * All elements of the [MutableSet] are wrapped in a [WeakReference].
  */
-interface MutableWeakSet<T>: WeakSet<T>, MutableSet<T>
+interface MutableWeakSet<T>: WeakSet<T>, MutableSet<T>, MutableWeakCollection<T>
 
 abstract class AbstractWeakSet<T: Any> protected constructor(
         private val mSet: MutableSet<WeakElement<T>>)

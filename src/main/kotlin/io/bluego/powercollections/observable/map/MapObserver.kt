@@ -104,15 +104,17 @@ class MapObserverDSL<K, V> private constructor() {
         }
     }
 
-    private var mNotifyDataChanged: () -> Unit = throw NotImplementedError()
-    private var mNotifyDataChangedIndex: (K) -> Unit = throw NotImplementedError()
-    private var mWasAdded: (K, V) -> Unit = throw NotImplementedError()
-    private var mWasAddedMultiple: (Map<K, V>) -> Unit = throw NotImplementedError()
-    private var mWasRemoved: (K, V) -> Unit = throw NotImplementedError()
-    private var mWasRemovedMultiple: (Map<K, V>) -> Unit = throw NotImplementedError()
-    private var mWasReplaced: (K, V, V) -> Unit = throw NotImplementedError()
-    private var mWasReplacedMultiple: (Map<K, Pair<V, V>>) -> Unit = throw NotImplementedError()
+    private var mNotifyDataChanged: () -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mNotifyDataChangedIndex: (K) -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mWasAdded: (K, V) -> Unit = { _, _ -> if (safetyMode) throw NotImplementedError() }
+    private var mWasAddedMultiple: (Map<K, V>) -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mWasRemoved: (K, V) -> Unit = { _, _ -> if (safetyMode) throw NotImplementedError() }
+    private var mWasRemovedMultiple: (Map<K, V>) -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mWasReplaced: (K, V, V) -> Unit = { _, _, _ -> if (safetyMode) throw NotImplementedError() }
+    private var mWasReplacedMultiple: (Map<K, Pair<V, V>>) -> Unit = { if (safetyMode) throw NotImplementedError() }
 
+
+    var safetyMode: Boolean = true
 
     /**
      * @see [MapObserver.notifyDataChanged]

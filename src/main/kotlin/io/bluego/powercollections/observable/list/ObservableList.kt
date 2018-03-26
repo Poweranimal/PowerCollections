@@ -162,8 +162,7 @@ fun <E> observableListOf(
  * @see ListObserverDSL
  * @see observableListOf
  */
-fun <E> observableListOf(
-        observer: ListObserverDSL<E>.() -> Unit) : ObservableList<E>
+fun <E> observableListOf(observer: ListObserverDSL<E>.() -> Unit) : ObservableList<E>
         = mutableObservableListOf(observer)
 
 /**
@@ -180,3 +179,4 @@ fun <E> observableListOf(observer: ListObserver<E>, vararg elements: E) : Observ
  */
 fun <E> observableListOf(observer: ListObserverDSL<E>.() -> Unit, vararg elements: E): ObservableList<E>
         = mutableObservableListOf(observer, *elements)
+

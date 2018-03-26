@@ -74,9 +74,7 @@ class ListObserverDSL<E> private constructor() {
     companion object {
 
         fun <E>create(listObserverDSL: ListObserverDSL<E>.() -> Unit): ListObserver<E> {
-
             return ListObserverDSL<E>().apply(listObserverDSL).run {
-
                 object : ListObserver<E> {
                     override fun notifyDataChanged() = mNotifyDataChanged()
 
@@ -100,15 +98,16 @@ class ListObserverDSL<E> private constructor() {
         }
     }
 
-    private var mNotifyDataChanged: () -> Unit = throw NotImplementedError()
-    private var mNotifyDataChangedIndex: (Int) -> Unit = throw NotImplementedError()
-    private var mWasAdded: (Int, E) -> Unit = throw NotImplementedError()
-    private var mWasAddedMultiple: (Map<Int, E>) -> Unit = throw NotImplementedError()
-    private var mWasRemoved: (Int, E) -> Unit = throw NotImplementedError()
-    private var mWasRemovedMultiple: (Map<Int, E>) -> Unit = throw NotImplementedError()
-    private var mWasReplaced: (Int, E, E) -> Unit =  throw NotImplementedError()
-    private var mWasReplacedMultiple: (Map<Int, Pair<E, E>>) -> Unit = throw NotImplementedError()
+    private var mNotifyDataChanged: () -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mNotifyDataChangedIndex: (Int) -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mWasAdded: (Int, E) -> Unit = { _, _ -> if (safetyMode) throw NotImplementedError() }
+    private var mWasAddedMultiple: (Map<Int, E>) -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mWasRemoved: (Int, E) -> Unit = { _, _ -> if (safetyMode) throw NotImplementedError() }
+    private var mWasRemovedMultiple: (Map<Int, E>) -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mWasReplaced: (Int, E, E) -> Unit = { _, _, _ -> if (safetyMode) throw NotImplementedError() }
+    private var mWasReplacedMultiple: (Map<Int, Pair<E, E>>) -> Unit = { if (safetyMode) throw NotImplementedError() }
 
+    var safetyMode: Boolean = true
 
     /**
      * @see [ListObserver.notifyDataChanged]

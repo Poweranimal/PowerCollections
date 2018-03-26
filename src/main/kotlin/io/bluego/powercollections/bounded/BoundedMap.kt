@@ -242,6 +242,14 @@ fun <K, V> mutableBoundedMapOf(maxCapacity: Int, vararg elements: Pair<K, V>): M
         BoundedMapBuilder.create(maxCapacity, mapOf(*elements))
 
 /**
+ * Creates an [MutableBoundedMap] with [map].
+ *
+ * @return [MutableBoundedMap] with [map]
+ */
+fun <K, V> mutableBoundedMapOf(maxCapacity: Int, map: Map<K, V>): MutableBoundedMap<K, V> =
+        BoundedMapBuilder.create(maxCapacity, map)
+
+/**
  * Creates an empty [BoundedMap].
  *
  * @return Empty [BoundedMap]
@@ -249,9 +257,17 @@ fun <K, V> mutableBoundedMapOf(maxCapacity: Int, vararg elements: Pair<K, V>): M
 fun <K, V> boundedMapOf(maxCapacity: Int): BoundedMap<K, V> = mutableBoundedMapOf(maxCapacity)
 
 /**
- * Creates an [BoundedMap] with [elements]s.
+ * Creates an [BoundedMap] with [elements].
  *
- * @return [BoundedMap] with [elements]s
+ * @return [BoundedMap] with [elements]
  */
 fun <K, V> boundedMapOf(maxCapacity: Int, vararg elements: Pair<K, V>): BoundedMap<K, V> =
         mutableBoundedMapOf(maxCapacity, *elements)
+
+/**
+ * Creates an [BoundedMap] with [map].
+ *
+ * @return [BoundedMap] with [map]
+ */
+fun <K, V> boundedMapOf(maxCapacity: Int, map: Map<K, V>): BoundedMap<K, V> =
+        mutableBoundedMapOf(maxCapacity, map)
