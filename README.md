@@ -409,7 +409,7 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-	implementation 'com.github.Poweranimal:PowerCollections:0.1.0'
+	implementation 'com.github.Poweranimal:PowerCollections:0.1.3'
 }
 ```
 
