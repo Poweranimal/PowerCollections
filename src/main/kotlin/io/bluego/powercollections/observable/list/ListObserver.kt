@@ -73,6 +73,8 @@ class ListObserverDSL<E> private constructor() {
 
     companion object {
 
+        private const val ERROR_MSG = "Set safetyMode to false in order to disable this error"
+
         fun <E>create(listObserverDSL: ListObserverDSL<E>.() -> Unit): ListObserver<E> {
             return ListObserverDSL<E>().apply(listObserverDSL).run {
                 object : ListObserver<E> {
@@ -98,15 +100,22 @@ class ListObserverDSL<E> private constructor() {
         }
     }
 
-    private var mNotifyDataChanged: () -> Unit = { if (safetyMode) throw NotImplementedError() }
-    private var mNotifyDataChangedIndex: (Int) -> Unit = { if (safetyMode) throw NotImplementedError() }
-    private var mWasAdded: (Int, E) -> Unit = { _, _ -> if (safetyMode) throw NotImplementedError() }
-    private var mWasAddedMultiple: (Map<Int, E>) -> Unit = { if (safetyMode) throw NotImplementedError() }
-    private var mWasRemoved: (Int, E) -> Unit = { _, _ -> if (safetyMode) throw NotImplementedError() }
-    private var mWasRemovedMultiple: (Map<Int, E>) -> Unit = { if (safetyMode) throw NotImplementedError() }
-    private var mWasReplaced: (Int, E, E) -> Unit = { _, _, _ -> if (safetyMode) throw NotImplementedError() }
-    private var mWasReplacedMultiple: (Map<Int, Pair<E, E>>) -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mNotifyDataChanged: () -> Unit = { default() }
+    private var mNotifyDataChangedIndex: (Int) -> Unit = { default() }
+    private var mWasAdded: (Int, E) -> Unit = { _, _ ->  }
+    private var mWasAddedMultiple: (Map<Int, E>) -> Unit = { default() }
+    private var mWasRemoved: (Int, E) -> Unit = { _, _ -> default() }
+    private var mWasRemovedMultiple: (Map<Int, E>) -> Unit = { default() }
+    private var mWasReplaced: (Int, E, E) -> Unit = { _, _, _ -> default() }
+    private var mWasReplacedMultiple: (Map<Int, Pair<E, E>>) -> Unit = { default() }
 
+    private fun default() {
+        if (safetyMode) throw NotImplementedError(ERROR_MSG)
+    }
+
+    /**
+     * If true, all methods of [ListObserver] that has not been added by [ListObserverDSL] will throw [NotImplementedError].
+     */
     var safetyMode: Boolean = true
 
     /**

@@ -24,6 +24,9 @@
 
 package io.bluego.powercollections.observable.map
 
+import io.bluego.powercollections.observable.list.ListObserver
+import io.bluego.powercollections.observable.list.ListObserverDSL
+
 
 interface MapObserver<K, in V> {
 
@@ -77,6 +80,8 @@ class MapObserverDSL<K, V> private constructor() {
 
     companion object {
 
+        private const val ERROR_MSG = "Set safetyMode to false in order to disable this error"
+
         fun <K, V> create(mapObserver: MapObserverDSL<K, V>.() -> Unit): MapObserver<K, V> {
 
             return MapObserverDSL<K, V>().apply(mapObserver).run {
@@ -104,16 +109,22 @@ class MapObserverDSL<K, V> private constructor() {
         }
     }
 
-    private var mNotifyDataChanged: () -> Unit = { if (safetyMode) throw NotImplementedError() }
-    private var mNotifyDataChangedIndex: (K) -> Unit = { if (safetyMode) throw NotImplementedError() }
-    private var mWasAdded: (K, V) -> Unit = { _, _ -> if (safetyMode) throw NotImplementedError() }
-    private var mWasAddedMultiple: (Map<K, V>) -> Unit = { if (safetyMode) throw NotImplementedError() }
-    private var mWasRemoved: (K, V) -> Unit = { _, _ -> if (safetyMode) throw NotImplementedError() }
-    private var mWasRemovedMultiple: (Map<K, V>) -> Unit = { if (safetyMode) throw NotImplementedError() }
-    private var mWasReplaced: (K, V, V) -> Unit = { _, _, _ -> if (safetyMode) throw NotImplementedError() }
-    private var mWasReplacedMultiple: (Map<K, Pair<V, V>>) -> Unit = { if (safetyMode) throw NotImplementedError() }
+    private var mNotifyDataChanged: () -> Unit = { default() }
+    private var mNotifyDataChangedIndex: (K) -> Unit = { default() }
+    private var mWasAdded: (K, V) -> Unit = { _, _ -> default() }
+    private var mWasAddedMultiple: (Map<K, V>) -> Unit = { default() }
+    private var mWasRemoved: (K, V) -> Unit = { _, _ -> default() }
+    private var mWasRemovedMultiple: (Map<K, V>) -> Unit = { default() }
+    private var mWasReplaced: (K, V, V) -> Unit = { _, _, _ -> default() }
+    private var mWasReplacedMultiple: (Map<K, Pair<V, V>>) -> Unit = { default() }
 
+    private fun default() {
+        if (safetyMode) throw NotImplementedError(ERROR_MSG)
+    }
 
+    /**
+     * If true, all methods of [ListObserver] that has not been added by [ListObserverDSL] will throw [NotImplementedError].
+     */
     var safetyMode: Boolean = true
 
     /**
