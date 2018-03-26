@@ -2,6 +2,12 @@
 **PowerCollections** is a library with a set of useful `Collections`, `Sets`, `Lists` and `Maps` primary designed for the SDK / 
 API development. It's entirely written in Kotlin.
 
+## Table of Contents
+* [Contents](#contents)
+* [Samples](#samples)
+* [Download](#download)
+* [License](#license)
+
 ## Contents
 | Name | Description |
 |------|-------------|
