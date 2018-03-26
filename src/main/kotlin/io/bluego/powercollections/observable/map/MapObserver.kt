@@ -90,7 +90,7 @@ class MapObserverDSL<K, V> private constructor() {
 
                     override fun notifyDataChanged() = mNotifyDataChanged()
 
-                    override fun notifyDataChanged(key: K) = mNotifyDataChangedIndex(key)
+                    override fun notifyDataChanged(key: K) = mNotifyDataChangedKey(key)
 
                     override fun wasAdded(key: K, value: V) = mWasAdded(key, value)
 
@@ -110,7 +110,7 @@ class MapObserverDSL<K, V> private constructor() {
     }
 
     private var mNotifyDataChanged: () -> Unit = { default() }
-    private var mNotifyDataChangedIndex: (K) -> Unit = { default() }
+    private var mNotifyDataChangedKey: (K) -> Unit = { default() }
     private var mWasAdded: (K, V) -> Unit = { _, _ -> default() }
     private var mWasAddedMultiple: (Map<K, V>) -> Unit = { default() }
     private var mWasRemoved: (K, V) -> Unit = { _, _ -> default() }
@@ -137,8 +137,8 @@ class MapObserverDSL<K, V> private constructor() {
     /**
      * @see [MapObserver.notifyDataChanged]
      */
-    fun notifyDataChangedByIndex(action: (key: K) -> Unit) {
-        mNotifyDataChangedIndex = action
+    fun notifyDataChangedByKey(action: (key: K) -> Unit) {
+        mNotifyDataChangedKey = action
     }
 
     /**
