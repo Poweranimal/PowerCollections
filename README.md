@@ -1,4 +1,4 @@
-# PowerCollections
+# PowerCollections [![](https://jitpack.io/v/Poweranimal/PowerCollections.svg)](https://jitpack.io/#Poweranimal/PowerCollections)
 **PowerCollections** is a library with a set of useful `Collections`, `Sets`, `Lists` and `Maps` primary designed for the SDK / 
 API development. It's entirely written in Kotlin.
 
@@ -404,7 +404,7 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-	implementation 'com.github.Poweranimal:PowerCollections:0.0.0'
+	implementation 'com.github.Poweranimal:PowerCollections:0.1.0'
 }
 ```
 
