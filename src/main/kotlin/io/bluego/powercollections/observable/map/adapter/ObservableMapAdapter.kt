@@ -195,15 +195,15 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
 
             @Suppress("UNCHECKED_CAST")
             override fun remove() {
-                if (!mNextWasCalled) IllegalStateException("Call Iterator.next()")
+                if (!mNextWasCalled) throw IllegalStateException("Call Iterator.next()")
                 else mNextWasCalled = false
                 val key = mKeyGetter(mLast as T)
                 val value = mValueGetter(mLast as T)
                 try {
                     mIterator.remove()
                     mObserver.wasRemoved(key, value)
-                } catch (throwable: Throwable) {
-                    throw throwable
+                } finally {
+                    mLast = null
                 }
             }
         }
@@ -266,8 +266,8 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
                 try {
                     mIterator.remove()
                     mObserver.wasRemoved(key, value)
-                } catch (throwable: Throwable) {
-                    throw throwable
+                } finally {
+                    mLast = null
                 }
             }
         }
@@ -277,13 +277,9 @@ open class ObservableMapAdapter<K, V, out T: MutableMap<K, V>>(
         : MutableMap.MutableEntry<K, V> by mEntry
     {
         override fun setValue(newValue: V): V {
-            return try {
-                val oldValue = mEntry.setValue(newValue)
-                mObserver.wasReplaced(mEntry.key, oldValue, newValue)
-                oldValue
-            } catch (throwable: Throwable) {
-                throw throwable
-            }
+            val oldValue = mEntry.setValue(newValue)
+            mObserver.wasReplaced(mEntry.key, oldValue, newValue)
+            return oldValue
         }
     }
 }

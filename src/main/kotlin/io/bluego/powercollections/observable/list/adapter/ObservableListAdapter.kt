@@ -181,9 +181,19 @@ internal open class ObservableListAdapter<out T: MutableList<E>, E>(private val 
             if (!isSilent) {
                 val index = mList.indexOf(last)
                 check(index >= 0) { "Index must not be smaller than 0. There must be a bug." }
-                mIterator.remove()
-                mObserver.wasRemoved(index, last as E)
-            } else mIterator.remove()
+                try {
+                    mIterator.remove()
+                    mObserver.wasRemoved(index, last as E)
+                } finally {
+                    last = null
+                }
+            } else {
+                try {
+                    mIterator.remove()
+                } finally {
+                    last = null
+                }
+            }
         }
     }
 
@@ -195,9 +205,19 @@ internal open class ObservableListAdapter<out T: MutableList<E>, E>(private val 
         override fun remove() {
             if (!isSilent) {
                 val index = nextIndex() - 1
-                mIterator.remove()
-                mObserver.wasRemoved(index, last as E)
-            } else mIterator.remove()
+                try {
+                    mIterator.remove()
+                    mObserver.wasRemoved(index, last as E)
+                } finally {
+                    last = null
+                }
+            } else {
+                try {
+                    mIterator.remove()
+                } finally {
+                    last = null
+                }
+            }
         }
 
         override fun previous(): E = mIterator.previous().apply { last = this }
