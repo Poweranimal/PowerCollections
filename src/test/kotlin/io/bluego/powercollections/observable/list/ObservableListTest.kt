@@ -24,7 +24,7 @@
 
 package io.bluego.powercollections.observable.list
 
-import io.bluego.powercollections.ListTest
+import io.bluego.powercollections._testutils.templates.ListTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -11,6 +11,7 @@ API development. It's entirely written in Kotlin.
 ## Contents
 | Name | Description |
 |------|-------------|
+| [BiMap](#bimap) | `Map` with unique keys and unique values
 | [BoundedList](#boundedlist) | `List` with a max size of elements
 | [BoundedMap](#boundedmap) | `Map` with a max size of entries
 | [ObservableList](#observablelist) | `List` that observes all content altering commands
@@ -19,6 +20,54 @@ API development. It's entirely written in Kotlin.
 | [WeakSet](#weakset) | `Set` that wraps all elements in `WeakReferences`
 
 ## Samples
+###BiMap
+A `Map` with unqiue keys and unique values.
+```kotlin
+ // Creates the BiMap
+ val biMap = BiMap<Int, String> by PowerCollections.biMap()
+ 
+ biMap.put(0, "Hello") // adds the entry 0=Hello
+ 
+ biMap.put(0, "World") // replaces the old value with the new value 0=World
+ 
+ /*
+ In this case, "World" would be twice in the map as value. 
+ Hence, an exception is thrown, because every value must be unique. 
+  */
+ biMap.put(1, "World") // Throws IllegalArgumentException
+ 
+ println(biMap) // {0=World}
+ 
+ /*
+ If you want to add the "Hello" value anyways, call this.
+ It adds the new entry 1=World and removes the entry, that already contains "World".
+ In this case, the entry 0=World gets removed.
+ */
+ biMap.forcePut(1, "World") // adds 1=World and removes 0=World
+ 
+ println(biMap) // {1=World}
+ 
+ val inversedBiMap = biMap.inverse // returns a new BiMap with inversed entries
+ 
+ println(inversedBiMap) // {World=1}
+```
+`BiMap` extends from `Map`. You can do:
+```kotlin
+ val mutableBiMap: MutableBiMap<Int, String> by PowerCollections.biMap()
+ 
+ val biMap: BiMap<Int, String> by PowerCollections.biMap()
+ 
+ val mutableMap: MutableMap<Int, String> by PowerCollections.biMap()
+ 
+ val map: Map<Int, String> by PowerCollections.biMap()
+```
+`BiMap` supports "kotlin-like" map initialization.
+```kotlin
+ val mutableBiMap = mutableBiMapOf()
+  
+ val boundedList = biMapOf()
+```
+
 ### BoundedList
 A `List` with a max size of `n`-elements.
 ```kotlin
@@ -66,9 +115,9 @@ A `List` with a max size of `n`-elements.
 ```
 `BoundedList` supports "kotlin-like" list initialization.
 ```kotlin
- val mutableBoundedList = mutableBoundedList(2)
+ val mutableBoundedList = mutableBoundedListOf(2)
   
- val boundedList = boundedList(2)
+ val boundedList = boundedListOf(2)
 ```
 
 ### BoundedMap
@@ -118,9 +167,9 @@ A `Map` with a max size of `n`-entries.
 ```
 `BoundedMap` supports "kotlin-like" map initialization.
 ```kotlin
- val mutableBoundedMap = mutableBoundedMap(2)
+ val mutableBoundedMap = mutableBoundedMapOf(2)
   
- val boundedMap = boundedMap(2)
+ val boundedMap = boundedMapOf(2)
 ```
 
 ### ObservableList
@@ -203,9 +252,9 @@ You can manually inform `ObservableList`, if changes are made inside a class.
 ```
 `ObservableList` supports "kotlin-like" list initialization.
 ```kotlin
- val mutableObservableList = mutableObservableList { }
+ val mutableObservableList = mutableObservableListOf { }
   
- val observableList = observableList { }
+ val observableList = observableListOf { }
 ```
 ### ObservableMap
 A `Map` that observes all content altering commands.
@@ -286,9 +335,9 @@ You can manually inform `ObservableMap`, if changes are made inside a class.
 ```
 `ObservableMap` supports "kotlin-like" map initialization.
 ```kotlin
- val mutableObservableMap = mutableObservableMap { }
+ val mutableObservableMap = mutableObservableMapOf { }
   
- val observableMap = observableMap { }
+ val observableMap = observableMapOf { }
 ```
 
 ### WeakCollection
@@ -301,7 +350,7 @@ object MyGlobalClient {
     if not needed anymore.
     Hence, 'MyGlobalClient' doesn't prevent the garbage collector from collecting.
     */
-    val myListeners: MutableWeakCollection<MyListener> by PowerCollections.weakCollection()
+    val myListeners: MutableWeakCollection<MyListener?> by PowerCollections.weakCollection()
     
     fun processMyInterfaces() {
     
@@ -328,19 +377,19 @@ object MyGlobalClient {
 ```
 `WeakCollection` extends from `Collection`. You can do:
 ```kotlin
- val mutableWeakCollection: MutableWeakCollection<MyListener> by PowerCollections.weakCollection()
+ val mutableWeakCollection: MutableWeakCollection<MyListener?> by PowerCollections.weakCollection()
   
- val weakCollection: WeakCollection<MyListener> by PowerCollections.weakCollection()
+ val weakCollection: WeakCollection<MyListener?> by PowerCollections.weakCollection()
   
- val mutableCollection: MutableCollection<MyListener> by PowerCollections.weakCollection()
+ val mutableCollection: MutableCollection<MyListener?> by PowerCollections.weakCollection()
   
- val collection: Collection<MyListener> by PowerCollections.weakCollection()
+ val collection: Collection<MyListener?> by PowerCollections.weakCollection()
 ```
 `WeakCollection` supports "kotlin-like" initialization.
 ```kotlin
- val mutableWeakCollection = mutableWeakCollection()
+ val mutableWeakCollection = mutableWeakCollectionOf()
   
- val weakCollection = weakCollection()
+ val weakCollection = weakCollectionOf()
 ```
 
 ### WeakSet
@@ -353,7 +402,7 @@ object MyGlobalClient {
     if not needed anymore.
     Hence, 'MyGlobalClient' doesn't prevent the garbage collector from collecting.
     */
-    val myListeners: MutableWeakSet<MyListener> by PowerCollections.weakSet()
+    val myListeners: MutableWeakSet<MyListener?> by PowerCollections.weakSet()
     
     fun processMyInterfaces() {
     
@@ -380,19 +429,19 @@ object MyGlobalClient {
 ```
 `WeakSet` extends from `Set`. You can do:
 ```kotlin
- val mutableWeakSet: MutableWeakSet<MyListener> by PowerCollections.weakSet()
+ val mutableWeakSet: MutableWeakSet<MyListener?> by PowerCollections.weakSet()
   
- val weakSet: WeakSet<MyListener> by PowerCollections.weakSet()
+ val weakSet: WeakSet<MyListener?> by PowerCollections.weakSet()
   
- val mutableSet: MutableSet<MyListener> by PowerCollections.weakSet()
+ val mutableSet: MutableSet<MyListener?> by PowerCollections.weakSet()
   
- val set: Set<MyListener> by PowerCollections.weakSet()
+ val set: Set<MyListener?> by PowerCollections.weakSet()
 ```
 `WeakSet` supports "kotlin-like" set initialization.
 ```kotlin
- val mutableWeakSet = mutableWeakSet()
+ val mutableWeakSet = mutableWeakSetOf()
   
- val weakSet = weakSet()
+ val weakSet = weakSetOf()
 ```
 
 ## Download

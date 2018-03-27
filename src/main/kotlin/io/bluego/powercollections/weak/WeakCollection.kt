@@ -38,7 +38,7 @@ interface WeakCollection<out T>: Collection<T>, Weakable
  */
 interface MutableWeakCollection<T>: WeakCollection<T>, MutableCollection<T>
 
-abstract class AbstractWeakCollection<T: Any> protected constructor(
+abstract class AbstractWeakCollection<T: Any?> protected constructor(
         private val mCollection: MutableCollection<WeakElement<T>>)
     : MutableWeakCollection<T?>
 {
@@ -75,10 +75,10 @@ abstract class AbstractWeakCollection<T: Any> protected constructor(
     override fun forceOptimize() = mAdapter.forceOptimize()
 }
 
-class HashWeakCollection<T: Any>(capacity: Int = 16) : AbstractWeakCollection<T>(ArrayList(capacity)) {
+class HashWeakCollection<T: Any?>(capacity: Int = 16) : AbstractWeakCollection<T>(ArrayList(capacity)) {
 
     companion object {
-        fun <T: Any> create(list: List<T>) : HashWeakCollection<T> {
+        fun <T: Any?> create(list: List<T>) : HashWeakCollection<T> {
             val weakCollection = HashWeakCollection<T>()
             weakCollection.addAll(list)
             return weakCollection
@@ -91,14 +91,14 @@ class HashWeakCollection<T: Any>(capacity: Int = 16) : AbstractWeakCollection<T>
  *
  * @return Empty [MutableWeakCollection]
  */
-fun <T: Any> mutableWeakCollectionOf(): MutableWeakCollection<T?> = HashWeakCollection()
+fun <T: Any?> mutableWeakCollectionOf(): MutableWeakCollection<T?> = HashWeakCollection()
 
 /**
  * Creates an [MutableWeakCollection] with [elements]s.
  *
  * @return [MutableWeakCollection] with [elements]s
  */
-fun <T: Any> mutableWeakCollectionOf(vararg elements: T): MutableWeakCollection<T?>
+fun <T: Any?> mutableWeakCollectionOf(vararg elements: T): MutableWeakCollection<T?>
         = HashWeakCollection.create(arrayListOf(*elements))
 
 /**
@@ -106,13 +106,13 @@ fun <T: Any> mutableWeakCollectionOf(vararg elements: T): MutableWeakCollection<
  *
  * @return Empty [WeakCollection]
  */
-fun <T: Any> weakCollectionOf(): WeakCollection<T?> = mutableWeakCollectionOf()
+fun <T: Any?> weakCollectionOf(): WeakCollection<T?> = mutableWeakCollectionOf()
 
 /**
  * Creates an [WeakCollection] with [elements]s.
  *
  * @return [WeakCollection] with [elements]s
  */
-fun <T: Any> weakCollectionOf(vararg elements: T): WeakCollection<T?>
+fun <T: Any?> weakCollectionOf(vararg elements: T): WeakCollection<T?>
         = mutableWeakCollectionOf(*elements)
 

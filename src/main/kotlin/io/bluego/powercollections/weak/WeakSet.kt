@@ -38,7 +38,7 @@ interface WeakSet<out T>: Set<T>, WeakCollection<T>
  */
 interface MutableWeakSet<T>: WeakSet<T>, MutableSet<T>, MutableWeakCollection<T>
 
-abstract class AbstractWeakSet<T: Any> protected constructor(
+abstract class AbstractWeakSet<T: Any?> protected constructor(
         private val mSet: MutableSet<WeakElement<T>>)
     : MutableWeakSet<T?> {
 
@@ -74,10 +74,10 @@ abstract class AbstractWeakSet<T: Any> protected constructor(
     override fun forceOptimize() = mAdapter.forceOptimize()
 }
 
-class HashWeakSet<T: Any>(capacity: Int = 16) : AbstractWeakSet<T>(HashSet(capacity)) {
+class HashWeakSet<T: Any?>(capacity: Int = 16) : AbstractWeakSet<T>(HashSet(capacity)) {
 
     companion object {
-        fun <T: Any> create(set: Set<T>) : HashWeakSet<T> {
+        fun <T: Any?> create(set: Set<T>) : HashWeakSet<T> {
             val weakSet = HashWeakSet<T>()
             weakSet.addAll(set)
             return weakSet
@@ -90,14 +90,14 @@ class HashWeakSet<T: Any>(capacity: Int = 16) : AbstractWeakSet<T>(HashSet(capac
  *
  * @return Empty [MutableWeakSet]
  */
-fun <T: Any> mutableWeakSetOf(): MutableWeakSet<T?> = HashWeakSet()
+fun <T: Any?> mutableWeakSetOf(): MutableWeakSet<T?> = HashWeakSet()
 
 /**
  * Creates an [MutableWeakSet] with [elements]s.
  *
  * @return [MutableWeakSet] with [elements]s
  */
-fun <T: Any> mutableWeakSetOf(vararg elements: T): MutableWeakSet<T?>
+fun <T: Any?> mutableWeakSetOf(vararg elements: T): MutableWeakSet<T?>
         = HashWeakSet.create(setOf(*elements))
 
 /**
@@ -105,12 +105,12 @@ fun <T: Any> mutableWeakSetOf(vararg elements: T): MutableWeakSet<T?>
  *
  * @return Empty [WeakSet]
  */
-fun <T: Any> weakSetOf(): WeakSet<T?> = mutableWeakSetOf()
+fun <T: Any?> weakSetOf(): WeakSet<T?> = mutableWeakSetOf()
 
 /**
  * Creates an [WeakSet] with [elements]s.
  *
  * @return [WeakSet] with [elements]s
  */
-fun <T: Any> weakSetOf(vararg elements: T): WeakSet<T?>
+fun <T: Any?> weakSetOf(vararg elements: T): WeakSet<T?>
         = mutableWeakSetOf(*elements)

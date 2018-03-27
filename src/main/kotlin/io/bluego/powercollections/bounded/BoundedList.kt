@@ -103,13 +103,12 @@ abstract class AbstractBoundedList<E>
     : LinkedList<E>, MutableBoundedList<E>
 {
     constructor(maxCapacity: Int) : super() {
-        checkInitialMaxCapacity(maxCapacity)
         this.maxCapacity = maxCapacity
+        checkInitialMaxCapacity(maxCapacity)
     }
 
-    constructor(maxCapacity: Int, p0: Collection<E>?) : super(p0) {
-        checkInitialMaxCapacity(maxCapacity)
-        this.maxCapacity = maxCapacity
+    constructor(maxCapacity: Int, p0: Collection<E>?): this(maxCapacity) {
+        if (p0 !== null) super.addAll(p0)
     }
 
     final override var maxCapacity: Int

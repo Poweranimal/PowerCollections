@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
-package io.bluego.powercollections
+@file:Suppress("PackageName")
+
+package io.bluego.powercollections._testutils.templates
 
 import org.junit.Test
 import kotlin.test.*

@@ -27,7 +27,7 @@ package io.bluego.powercollections.weak.adapter
 import java.lang.ref.ReferenceQueue
 import java.lang.ref.WeakReference
 
-internal open class WeakCollectionAdapter<E: Any, out T: MutableCollection<WeakElement<E>>>(private val mCollection: T) {
+internal open class WeakCollectionAdapter<E: Any?, out T: MutableCollection<WeakElement<E>>>(private val mCollection: T) {
 
     private val mQueue = ReferenceQueue<E?>()
 
@@ -100,26 +100,26 @@ internal open class WeakCollectionAdapter<E: Any, out T: MutableCollection<WeakE
     }
 }
 
-class WeakElement<T: Any> : WeakReference<T>
+class WeakElement<T> : WeakReference<T>
 {
     private var hash: Int = 0 /* Hashcode of key, stored here since the key
                            may be tossed by the GC */
 
 
     private constructor(element: T) : super(element) {
-        hash = element.hashCode()
+        hash = element!!.hashCode()
     }
 
     private constructor(element: T, q: ReferenceQueue<T?>) : super(element, q) {
-        hash = element.hashCode()
+        hash = element!!.hashCode()
     }
 
     companion object {
 
-        fun <T: Any> create(element: T?):  WeakElement<T>? =
+        fun <T> create(element: T?):  WeakElement<T>? =
                 if (element === null) null else WeakElement(element)
 
-        fun <T: Any> create(element: T?, queue: ReferenceQueue<T?>):  WeakElement<T>? =
+        fun <T> create(element: T?, queue: ReferenceQueue<T?>):  WeakElement<T>? =
                 if (element === null) null else WeakElement(element, queue)
 
     }

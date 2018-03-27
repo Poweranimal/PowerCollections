@@ -24,7 +24,7 @@
 
 package io.bluego.powercollections.observable.map
 
-import io.bluego.powercollections.MapTest
+import io.bluego.powercollections._testutils.templates.MapTest
 import org.junit.Test
 import kotlin.test.assertNull
 import kotlin.test.assertTrue

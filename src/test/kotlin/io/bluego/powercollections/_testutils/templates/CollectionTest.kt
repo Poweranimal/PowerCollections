@@ -22,8 +22,9 @@
  * SOFTWARE.
  */
 
-package io.bluego.powercollections
+package io.bluego.powercollections._testutils.templates
 
+import io.bluego.powercollections._testutils.assertSize
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

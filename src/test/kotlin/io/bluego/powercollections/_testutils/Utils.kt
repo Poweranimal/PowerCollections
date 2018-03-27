@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.bluego.powercollections
+package io.bluego.powercollections._testutils
 
 import kotlin.test.assertEquals
 

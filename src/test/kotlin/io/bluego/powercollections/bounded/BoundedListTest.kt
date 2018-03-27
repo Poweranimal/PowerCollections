@@ -24,8 +24,8 @@
 
 package io.bluego.powercollections.bounded
 
-import io.bluego.powercollections.ListTest
-import io.bluego.powercollections.assertSize
+import io.bluego.powercollections._testutils.templates.ListTest
+import io.bluego.powercollections._testutils.assertSize
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

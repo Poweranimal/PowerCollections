@@ -24,8 +24,8 @@
 
 package io.bluego.powercollections.weak
 
-import io.bluego.powercollections.CollectionTest
-import io.bluego.powercollections.assertSize
+import io.bluego.powercollections._testutils.templates.CollectionTest
+import io.bluego.powercollections._testutils.assertSize
 import org.junit.Test
 import kotlin.test.assertEquals
 

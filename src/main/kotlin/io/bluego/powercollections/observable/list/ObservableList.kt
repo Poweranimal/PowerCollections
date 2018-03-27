@@ -152,7 +152,7 @@ fun <E> mutableObservableListOf(
 /**
  * Creates an empty [ObservableList].
  *
- * @return Emtpy [ObservableList]
+ * @return Empty [ObservableList]
  */
 fun <E> observableListOf(
         observer: ListObserver<E>) : ObservableList<E>
@@ -166,9 +166,9 @@ fun <E> observableListOf(observer: ListObserverDSL<E>.() -> Unit) : ObservableLi
         = mutableObservableListOf(observer)
 
 /**
- * Creates an [ObservableList] with [elements]s.
+ * Creates an [ObservableList] with [elements].
  *
- * @return [ObservableList] with [elements]s
+ * @return [ObservableList] with [elements]
  */
 fun <E> observableListOf(observer: ListObserver<E>, vararg elements: E) : ObservableList<E>
         = mutableObservableListOf(observer, *elements)
@@ -179,4 +179,3 @@ fun <E> observableListOf(observer: ListObserver<E>, vararg elements: E) : Observ
  */
 fun <E> observableListOf(observer: ListObserverDSL<E>.() -> Unit, vararg elements: E): ObservableList<E>
         = mutableObservableListOf(observer, *elements)
-

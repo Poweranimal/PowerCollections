@@ -50,7 +50,7 @@ object PowerCollections {
         }
 
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-            mList = mutableObservableListOf<Any>(observer, value)
+            mList = mutableObservableListOf(observer, *value.toTypedArray())
         }
     }
 
@@ -78,7 +78,7 @@ object PowerCollections {
         }
 
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-            mList = mutableBoundedListOf(size, value)
+            mList = mutableBoundedListOf(size, *value.toTypedArray())
         }
     }
 
@@ -106,7 +106,7 @@ object PowerCollections {
         }
 
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-            mCollection = mutableWeakCollectionOf(value)
+            mCollection = mutableWeakCollectionOf(*value.toTypedArray())
         }
     }
 
@@ -120,7 +120,21 @@ object PowerCollections {
         }
 
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-            mSet = mutableWeakSetOf(value)
+            mSet = mutableWeakSetOf(*value.toTypedArray())
+        }
+    }
+
+    inline fun <K: Any, V: Any, reified T: Map<K, V>> biMap(): ReadWriteProperty<Any?, T>
+            = object : ReadWriteProperty<Any?, T> {
+
+        private var mMap: MutableBiMap<K, V> = mutableBiMapOf()
+
+        override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+            return mMap as T
+        }
+
+        override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+            mMap = mutableBiMapOf(value)
         }
     }
 }

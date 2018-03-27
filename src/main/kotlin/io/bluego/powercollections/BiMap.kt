@@ -170,7 +170,7 @@ abstract class AbstractBiMap<K: Any, V: Any> protected constructor(
             checkNotNull(mLast as Any?) { "Move to an element before removing it" }
             try {
                 val key = mKeyGetter(mLast!!)
-                val value = mDirect[key] ?: error("BiMap doesn't contain key $key")
+                val value = mDirect[key] ?: throw IllegalStateException("BiMap doesn't contain key $key")
                 mReverse.remove(value)
                 try {
                     mIterator.remove()
@@ -197,7 +197,7 @@ abstract class AbstractBiMap<K: Any, V: Any> protected constructor(
                     throw throwable
                 }
             } else {
-                check(newValue !in mReverse) { "BiMap already contains value $newValue" }
+                require(newValue !in mReverse) { "BiMap already contains value $newValue" }
                 mReverse[newValue] = mEntry.key
                 return try {
                     mEntry.setValue(newValue)
@@ -236,9 +236,17 @@ fun <K: Any, V: Any> mutableBiMapOf(vararg elements: Pair<K, V>): MutableBiMap<K
         = HashBiMap.create(mapOf(*elements))
 
 /**
+ * Creates an [MutableBiMap] with [map].
+ *
+ * @return [MutableBiMap] with [map]
+ */
+fun <K: Any, V: Any> mutableBiMapOf(map: Map<K, V>): MutableBiMap<K, V>
+        = HashBiMap.create(map)
+
+/**
  * Creates an empty [BiMap].
  *
- * @return Emtpy [BiMap]
+ * @return Empty [BiMap]
  */
 fun <K: Any, V: Any> biMapOf(): BiMap<K, V> = mutableBiMapOf()
 
@@ -249,3 +257,11 @@ fun <K: Any, V: Any> biMapOf(): BiMap<K, V> = mutableBiMapOf()
  */
 fun <K: Any, V: Any> biMapOf(vararg elements: Pair<K, V>): BiMap<K, V>
         = mutableBiMapOf(*elements)
+
+/**
+ * Creates an [BiMap] with [map].
+ *
+ * @return [BiMap] with [map]
+ */
+fun <K: Any, V: Any> biMapOf(map: Map<K, V>): BiMap<K, V>
+        = mutableBiMapOf(map)
