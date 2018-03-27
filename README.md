@@ -21,7 +21,7 @@ API development. It's entirely written in Kotlin.
 
 ## Samples
 ###BiMap
-A `Map` with unqiue keys and unique values.
+A `Map` with unique keys and unique values.
 ```kotlin
  // Creates the BiMap
  val biMap = BiMap<Int, String> by PowerCollections.biMap()
@@ -458,7 +458,7 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-	implementation 'com.github.Poweranimal:PowerCollections:0.1.3'
+	implementation 'com.github.Poweranimal:PowerCollections:0.1.4'
 }
 ```
 
