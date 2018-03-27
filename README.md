@@ -20,7 +20,7 @@ API development. It's entirely written in Kotlin.
 | [WeakSet](#weakset) | `Set` that wraps all elements in `WeakReferences`
 
 ## Samples
-###BiMap
+### BiMap
 A `Map` with unique keys and unique values.
 ```kotlin
  // Creates the BiMap
